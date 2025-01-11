@@ -9,7 +9,7 @@ namespace math_wraper {
 		~c_color( ) { }
 
 		// transform color
-		std::uint32_t tranform() {
+		std::uint32_t transform() {
 			std::uint32_t out = 0;
 
 			out = static_cast<std::uint32_t>(this->r) << 0;
@@ -18,6 +18,23 @@ namespace math_wraper {
 			out |= static_cast<std::uint32_t>(this->a) << 24;
 
 			return out;
+		}
+
+		c_color hex(std::string hex_color) {
+			if (hex_color[0] == '#') {
+				hex_color.erase(0, 1);
+			}
+
+			std::stringstream ss;
+			ss << std::hex << hex_color;
+			unsigned int hex_value;
+			ss >> hex_value;
+
+			int red = (hex_value >> 16) & 0xff;
+			int green = (hex_value >> 8) & 0xff;
+			int blue = hex_value & 0xff;
+
+			return c_color(red, green, blue);
 		}
 
 		int r, g, b, a;

@@ -1,6 +1,7 @@
 #include "../../inc.hh"
+#include "fonts/sf_pro.hh"
 
-bool gui::c_font::setup(const std::string& font_location, float size)
+bool framework::c_font::setup(const std::string& font_location, float size)
 {
 	// default imgui shit, we need to load these always for some reason
 	// dogshit stuff below
@@ -27,7 +28,7 @@ bool gui::c_font::setup(const std::string& font_location, float size)
 	return true;
 }
 
-bool gui::c_font::setup(const std::string& font_location, float size, const ImFontConfig* font_template, const ImWchar* glyph)
+bool framework::c_font::setup(const std::string& font_location, float size, const ImFontConfig* font_template, const ImWchar* glyph)
 {
 	// default imgui shit, we need to load these always for some reason
 	// dogshit stuff below
@@ -54,7 +55,7 @@ bool gui::c_font::setup(const std::string& font_location, float size, const ImFo
 	return true;
 }
 
-bool gui::c_font::setup(void* data, float size, std::string id)
+bool framework::c_font::setup(void* data, int font_size, float size, std::string id)
 {
 	// default imgui shit, we need to load these always for some reason
 	// dogshit stuff below
@@ -64,7 +65,7 @@ bool gui::c_font::setup(void* data, float size, std::string id)
 
 	// font handler
 	// check if the font has been initialized
-	this->m_handle =  io.Fonts->AddFontFromMemoryTTF(data, sizeof(data), size);
+	this->m_handle = io.Fonts->AddFontFromMemoryTTF(data, font_size, size);
 	if(this->m_handle == nullptr) {
 		// break the initialization font didnt initialize corectly
 		printf("memory font [%s], font sizeof [%i], size [%i] failed to initialize!\n", id.c_str(), (int)sizeof(data), /* fix warning */ (int)size);
@@ -81,7 +82,7 @@ bool gui::c_font::setup(void* data, float size, std::string id)
 	return true;
 }
 
-bool gui::c_font::setup(void* data, float size, const ImFontConfig* font_template, const ImWchar* glyph, std::string id)
+bool framework::c_font::setup(void* data, int font_size, float size, const ImFontConfig* font_template, const ImWchar* glyph, std::string id)
 {
 	// default imgui shit, we need to load these always for some reason
 	// dogshit stuff below
@@ -91,7 +92,7 @@ bool gui::c_font::setup(void* data, float size, const ImFontConfig* font_templat
 
 	// font handler
 	// check if the font has been initialized
-	this->m_handle =  io.Fonts->AddFontFromMemoryTTF(data, sizeof(data), size, font_template, glyph);
+	this->m_handle = io.Fonts->AddFontFromMemoryTTF(data, font_size, size, font_template, glyph);
 	if(this->m_handle == nullptr) {
 		// break the initialization font didnt initialize corectly
 		printf("memory font [%s], font sizeof [%i], size [%i] failed to initialize!\n", id.c_str(), (int)sizeof(data), /* fix warning */ (int)size);
@@ -108,29 +109,68 @@ bool gui::c_font::setup(void* data, float size, const ImFontConfig* font_templat
 	return true;
 }
 
-math_wraper::c_vector_2d gui::c_font::measure(std::string text)
+math_wraper::c_vector_2d framework::c_font::measure(std::string text)
 {
 	auto wraper = this->m_handle->CalcTextSizeA(this->m_handle->FontSize, FLT_MAX, -1.0f, text.c_str());
 	return math_wraper::c_vector_2d(wraper.x, wraper.y);
 }
 
-void gui::c_font::string(int x, int y, std::string text, math_wraper::c_color color)
+void framework::c_font::string(int x, int y, std::string text, math_wraper::c_color color)
 {
 	// we do not push here as the push is happening in the draw function
-	globals::m_draw_list->AddText(ImVec2(x, y), color.tranform(), text.c_str());
+	globals::m_draw_list->AddText(ImVec2(x, y), color.transform(), text.c_str());
 }
 
-void gui::c_font::draw(int x, int y, std::string text, math_wraper::c_color color, modifiers::font_flags flags, math_wraper::c_color shadow_color, bool double_layered, std::string second_text)
+void framework::c_font::draw(int x, int y, std::string text, math_wraper::c_color color, modifiers::font_flags flags, math_wraper::c_color shadow_color, bool double_layered, std::string second_text, math_wraper::c_color second_color)
 {
 	// push the font
 	ImGui::PushFont(this->m_handle);
 
+	if (flags == modifiers::drop_shadow) {
+		this->string(x + 1, y + 1, text, shadow_color);
+	} // assuming that we wont have outline and dropshadow in the sametime we are going for a elsee if
+	else if(flags == modifiers::outline) {
+		this->string(x + 1, y - 1, text, shadow_color);
+		this->string(x - 1, y + 1, text, shadow_color);
+		this->string(x - 1, y - 1, text, shadow_color);
+		this->string(x + 1, y + 1, text, shadow_color);
+
+		this->string(x, y + 1, text, shadow_color);
+		this->string(x, y - 1, text, shadow_color);
+		this->string(x + 1, y, text, shadow_color);
+		this->string(x - 1, y, text, shadow_color);
+	}
+
+	// basic text, override beside txt
 	this->string(x, y, text, color);
+
+	// setup double layered text
+	if (double_layered) {
+		int spacing = this->measure(text).x + 4;
+
+		if (flags == modifiers::drop_shadow) {
+			this->string((x + spacing) + 1, y + 1, second_text, shadow_color);
+		} // assuming that we wont have outline and dropshadow in the sametime we are going for a elsee if
+		else if (flags == modifiers::outline) {
+			this->string((x + spacing) + 1, y - 1, second_text, shadow_color);
+			this->string((x + spacing) - 1, y + 1, second_text, shadow_color);
+			this->string((x + spacing) - 1, y - 1, second_text, shadow_color);
+			this->string((x + spacing) + 1, y + 1, second_text, shadow_color);
+
+			this->string((x + spacing), y + 1, second_text, shadow_color);
+			this->string((x + spacing), y - 1, second_text, shadow_color);
+			this->string((x + spacing) + 1, y, second_text, shadow_color);
+			this->string((x + spacing) - 1, y, second_text, shadow_color);
+		}
+
+		// basic text, override beside txt
+		this->string((x + spacing), y, second_text, second_color);
+	}
 	
 	ImGui::PopFont();
 }
 
-bool gui::c_render::initialize(IDirect3DDevice9* device, HWND window)
+bool framework::c_render::initialize(IDirect3DDevice9* device, HWND window)
 {
 	// if our device or window is invalid return false so we wont continue further
 	if(!device || !window) {
@@ -154,9 +194,12 @@ bool gui::c_render::initialize(IDirect3DDevice9* device, HWND window)
 	// initialize fonts
 	ImFontConfig* cfg = new ImFontConfig();
 	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_MonoHinting | ImGuiFreeTypeBuilderFlags_Monochrome;
-
-	// hopefully it works
 	fonts->menu_default.setup("c:/windows/fonts/verdana.ttf", 13, cfg, NULL);
+
+	// resetup cfg
+	cfg = new ImFontConfig();
+	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_NoHinting;
+	fonts->sf_pro_regular.setup(sf_pro_regular, sizeof(sf_pro_regular), 16, cfg, NULL, "asd");
 
 	// build fonts
 	ImGuiFreeType::BuildFontAtlas(io.Fonts, 0);
@@ -167,4 +210,86 @@ bool gui::c_render::initialize(IDirect3DDevice9* device, HWND window)
 	// initialized status is ok
 	printf("initialized rendering\n");
 	return true;
+}
+
+void framework::c_render::rect_filled(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, int rounding)
+{
+	globals::m_draw_list->AddRectFilled(pos.transform(), pos.transform() + size.transform(), color.transform(), rounding);
+}
+
+void framework::c_render::rect_filled(int x, int y, int w, int h, math_wraper::c_color color, int rounding)
+{
+	globals::m_draw_list->AddRectFilled(ImVec2(x, y), ImVec2(x + w, y + h), color.transform(), rounding);
+}
+
+void framework::c_render::rect(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, int rounding, float thick)
+{
+	// ImDrawListFlags_AntiAliasedLines for testing
+	globals::m_draw_list->AddRect(pos.transform(), pos.transform() + size.transform(), color.transform(), rounding, ImDrawListFlags_AntiAliasedLines, thick);
+}
+
+void framework::c_render::rect(int x, int y, int w, int h, math_wraper::c_color color, int rounding, float thick)
+{
+	// ImDrawListFlags_AntiAliasedLines for testing
+	globals::m_draw_list->AddRect(ImVec2(x, y), ImVec2(x + w, y + h), color.transform(), rounding, ImDrawListFlags_AntiAliasedLines, thick);
+}
+
+void framework::c_render::shadow(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, int rounding, int think)
+{
+	globals::m_draw_list->AddShadowRect(pos.transform(), pos.transform() + size.transform(), color.transform(), think, ImVec2(0, 0), 0, rounding);
+}
+
+void framework::c_render::shadow(int x, int y, int w, int h, math_wraper::c_color color, int rounding, int think)
+{
+	globals::m_draw_list->AddShadowRect(ImVec2(x, y), ImVec2(x + w, y + h), color.transform(), think, ImVec2(0, 0), 0, rounding);
+}
+
+void framework::c_render::gradient(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, 
+	math_wraper::c_color color2, modifiers::gradient_flags flags, int rounding, math_wraper::c_color backround_helper, ImDrawFlags draw_flags)
+{
+	if (flags == modifiers::vertical) {
+		if (rounding != 0) {
+			globals::m_draw_list->AddRectFilledMultiColorRounded(pos.transform(), pos.transform() + size.transform(),
+				backround_helper.transform(), color.transform(), color2.transform(), color2.transform(), color.transform(), rounding, flags);
+		}
+		else {
+			globals::m_draw_list->AddRectFilledMultiColor(pos.transform(), pos.transform() + size.transform(),
+				color.transform(), color2.transform(), color2.transform(), color.transform());
+		}
+	}
+	else {
+		if (rounding != 0) {
+			globals::m_draw_list->AddRectFilledMultiColorRounded(pos.transform(), pos.transform() + size.transform(),
+				backround_helper.transform(), color.transform(), color.transform(), color2.transform(), color2.transform(), rounding, flags);
+		}
+		else {
+			globals::m_draw_list->AddRectFilledMultiColor(pos.transform(), pos.transform() + size.transform(),
+				color.transform(), color.transform(), color2.transform(), color2.transform());
+		}
+	}
+}
+
+void framework::c_render::gradient(int x, int y, int w, int h, math_wraper::c_color color, math_wraper::c_color color2, 
+	modifiers::gradient_flags flags, int rounding, math_wraper::c_color backround_helper, ImDrawFlags draw_flags)
+{
+	if (flags == modifiers::vertical) {
+		if (rounding != 0) {
+			globals::m_draw_list->AddRectFilledMultiColorRounded(ImVec2(x, y), ImVec2(x + w, y + h),
+				backround_helper.transform(), color.transform(), color2.transform(), color2.transform(), color.transform(), rounding, flags);
+		}
+		else {
+			globals::m_draw_list->AddRectFilledMultiColor(ImVec2(x, y), ImVec2(x + w, y + h),
+				color.transform(), color2.transform(), color2.transform(), color.transform());
+		}
+	}
+	else {
+		if (rounding != 0) {
+			globals::m_draw_list->AddRectFilledMultiColorRounded(ImVec2(x, y), ImVec2(x + w, y + h),
+				backround_helper.transform(), color.transform(), color.transform(), color2.transform(), color2.transform(), rounding, flags);
+		}
+		else {
+			globals::m_draw_list->AddRectFilledMultiColor(ImVec2(x, y), ImVec2(x + w, y + h),
+				color.transform(), color.transform(), color2.transform(), color2.transform());
+		}
+	}
 }

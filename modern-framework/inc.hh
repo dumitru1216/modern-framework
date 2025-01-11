@@ -52,4 +52,7 @@
 
 #include "utils/math.hh"
 #include "utils/color.hh"
+#include "utils/input.hh"
 #include "utils/renderer/renderer.hh"
+#include "framework/elements/gui.hh"
+#include "framework/container.hh"

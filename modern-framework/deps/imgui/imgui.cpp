@@ -8510,6 +8510,10 @@ bool ImGui::IsKeyReleased(ImGuiKey key, ImGuiID owner_id)
     return true;
 }
 
+// ImGui::IsMouseDown(ImGuiMouseButton button)
+// ImGui::IsMouseClicked(ImGuiMouseButton button, bool repeat)
+// ImGui::IsMouseReleased(ImGuiMouseButton button)
+
 bool ImGui::IsMouseDown(ImGuiMouseButton button)
 {
     ImGuiContext& g = *GImGui;

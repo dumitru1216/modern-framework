@@ -35,7 +35,7 @@ int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nC
 	ShowWindow( g_pWindow, SW_SHOWDEFAULT );
 	UpdateWindow( g_pWindow );
 
-	gui::draw->initialize(g_pd3dDevice, g_pWindow);
+	framework::draw->initialize(g_pd3dDevice, g_pWindow);
 
 	MSG msg;
 	ZeroMemory( &msg, sizeof( msg ) );
@@ -53,10 +53,18 @@ int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nC
 		ImGui_ImplWin32_NewFrame( );
 		ImGui::NewFrame( );
 		{
-			gui::globals::m_draw_list = ImGui::GetBackgroundDrawList();
+			framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 
 			// font testing
-			gui::fonts->menu_default.draw(100, 100, "This is a test drawing!", math_wraper::c_color());
+			framework::fonts->menu_default.draw(100, 100, "This is a basic text!", math_wraper::c_color());
+			framework::fonts->menu_default.draw(100, 120, "This is an outlined text!", math_wraper::c_color(), framework::modifiers::font_flags::outline);
+			framework::fonts->menu_default.draw(100, 140, "This is a dropshadow test text!", math_wraper::c_color(), framework::modifiers::font_flags::drop_shadow);
+			framework::fonts->menu_default.draw(100, 160, "This is a dropshadow", math_wraper::c_color(), framework::modifiers::font_flags::drop_shadow,
+				framework::modifiers::default_shadow, true, "double layered test text", math_wraper::c_color(255, 0, 0));
+			framework::fonts->menu_default.draw(100, 180, "This is a outlined", math_wraper::c_color(), framework::modifiers::font_flags::outline,
+				framework::modifiers::default_shadow, true, "double layered test text", math_wraper::c_color(255, 0, 0));
+
+			framework::container->run();
 		}
 		ImGui::EndFrame( );
 
@@ -64,7 +72,7 @@ int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nC
 		g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, false );
 		g_pd3dDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
 		g_pd3dDevice->SetRenderState( D3DRS_SCISSORTESTENABLE, false );
-		g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA( 0, 0, 0, 0 ), 1.0f, 0 );
+		g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_RGBA( 30, 30, 30, 0 ), 1.0f, 0 );
 
 		if ( g_pd3dDevice->BeginScene( ) >= 0 )
 		{
