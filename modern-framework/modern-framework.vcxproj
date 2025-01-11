@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="inc.hh" />
     <ClInclude Include="main.hh" />
+    <ClInclude Include="utils\color.hh" />
     <ClInclude Include="utils\math.hh" />
     <ClInclude Include="utils\renderer\renderer.hh" />
   </ItemGroup>

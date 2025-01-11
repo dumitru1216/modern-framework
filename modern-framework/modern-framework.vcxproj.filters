@@ -35,5 +35,8 @@
     <ClInclude Include="utils\renderer\renderer.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="utils\color.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
