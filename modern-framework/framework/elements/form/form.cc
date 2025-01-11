@@ -1,5 +1,7 @@
 #include "../../inc.hh"
 
+#define accent math_wraper::c_color().hex("7D87A3")
+
 bool framework::gui::form::begin_window(std::string name) 
 {
 	// animation
@@ -35,19 +37,83 @@ bool framework::gui::form::begin_window(std::string name)
 	// swap stack
 	std::stack<math_wraper::c_vector_2d>().swap(context->cursor_pos_stack);
 
-	framework::draw->rect_filled(context->pos, context->size, math_wraper::c_color().hex("15161C").modulate(context->animation), 6);
+	framework::draw->rect_filled(context->pos, context->size, math_wraper::c_color().hex("15161C").modulate(context->animation), 10);
 
-	// tabs
-	framework::draw->rect_filled(context->pos + math_wraper::c_vector_2d(10, 10), math_wraper::c_vector_2d(200, context->size.y - 20), math_wraper::c_color().hex("1D1E25").modulate(context->animation), 6);
 	if (!context->tabs.empty()) {
+		int pos_y = context->pos.y + 15;
 
+		for (int i = 0; i < context->tabs.size(); i++) {
+			auto& tab = context->tabs[i];
+
+			math_wraper::c_vector_2d tab_pos = math_wraper::c_vector_2d(context->pos.x + 15, pos_y);
+			math_wraper::c_vector_2d tab_size = math_wraper::c_vector_2d(40, 40);
+
+			anim_context_t tab_act = g_anim_base.build(tab.name);
+			tab_act.animate(tab_act.m_value + 3.f * g_anim_base.delta_time(0.4) * (
+				context->active_tab == i?1.f:-1.f
+			));
+
+			anim_context_t tab_limit = g_anim_base.build(tab.name + "#limited2");
+			tab_limit.animate_int(tab_limit.m_value + 3.f * g_anim_base.delta_time(0.5) * (
+				context->active_tab == i?255.f:-255.f
+			), true, 100.f, 255.f);
+
+			if (input_wraper::mouse_in_region(tab_pos, tab_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
+				context->active_tab = i;
+			}
+
+			framework::draw->rect_filled(context->pos.x + 15, pos_y, 40, 40, accent.modulate(tab_act.m_value), 6);
+
+			framework::fonts->font_awesome.draw(context->pos.x + 15 + 20 - (framework::fonts->font_awesome.measure(tab.icon).x * 0.5),
+				pos_y + 20 - (framework::fonts->font_awesome.measure(tab.icon).y * 0.5), tab.icon, math_wraper::c_color().modulate_normal(tab_limit.m_value));
+
+			pos_y += 60;
+		}
+
+		// reset
+		pos_y = 0;
 	}
 
-	// subtabs
-	framework::draw->rect_filled(context->pos + math_wraper::c_vector_2d(220, 10), math_wraper::c_vector_2d(context->size.x - 230, 40), math_wraper::c_color().hex("1D1E25").modulate(context->animation), 6);
+	// tabs
+	framework::draw->rect_filled(context->pos + math_wraper::c_vector_2d(70, 15), math_wraper::c_vector_2d(200, context->size.y - 30), math_wraper::c_color().hex("1D1E25").modulate(context->animation), 6);
+	if (!context->subtabs.empty()) {
+		int pos_y = context->pos.y + 25;
+
+		for (int i = 0; i < context->subtabs.size(); i++) {
+			auto subtab = context->subtabs[i];
+
+			math_wraper::c_vector_2d tab_pos = math_wraper::c_vector_2d(context->pos.x + 80, pos_y);
+			math_wraper::c_vector_2d tab_size = math_wraper::c_vector_2d(180, 30);
+
+			if (input_wraper::mouse_in_region(tab_pos, tab_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
+				context->active_subtab = i;
+			}
+
+			anim_context_t subtab_act = g_anim_base.build(subtab.name);
+			subtab_act.animate(subtab_act.m_value + 3.f * g_anim_base.delta_time(0.4) * (
+				context->active_subtab == i?1.f:-1.f
+			));
+
+			anim_context_t sub_limit = g_anim_base.build(subtab.name + "#limited2");
+			sub_limit.animate_int(sub_limit.m_value + 3.f * g_anim_base.delta_time(0.5) * (
+				context->active_subtab == i?255.f:-255.f
+			), true, 100.f, 255.f);
+
+
+			framework::draw->rect_filled(context->pos.x + 80, pos_y, 180, 30, math_wraper::c_color().hex("292B33").modulate(subtab_act.m_value), 6);
+			framework::fonts->font_awesome_smaller.draw(context->pos.x + 90,
+				pos_y + 15 - (framework::fonts->font_awesome_smaller.measure(subtab.icon).y * 0.5), subtab.icon, math_wraper::c_color().modulate(context->animation));
+			framework::fonts->sf_pro_regular.draw(context->pos.x + 90 + 20, pos_y + 15 - (framework::fonts->sf_pro_regular.measure(subtab.name).y * 0.5), subtab.name, math_wraper::c_color().modulate_normal(sub_limit.m_value));
+
+			pos_y += 35;
+		}
+
+		pos_y = 0;
+	}
 
 	// clear data
 	context->tabs.clear();
+	context->subtabs.clear();
 
 	return true;
 }

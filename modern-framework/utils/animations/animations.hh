@@ -17,6 +17,7 @@ namespace framework {
 		unsigned int m_id;
 
 		void animate(float adjust_to, bool clamp = true);
+		void animate_int(float adjust_to, bool clamp, float min, float max);
 	};
 
 	// animation controller base

@@ -32,9 +32,9 @@ namespace framework {
 		bool setup(const std::string& font_location, float size);
 		bool setup(const std::string& font_location, float size, const ImFontConfig* font_template,
 			const ImWchar* glyph);
-		bool setup(void* data, int sizess /*, sizeof(data) */, float size, std::string id);
+		bool setup(void* data, int sizess /*, sizeof(data) */, float size, std::string id, bool compresed = false);
 		bool setup(void * data, int font_size /*, sizeof(data) */, float size, const ImFontConfig* font_template,
-			const ImWchar* glyph, std::string id);
+			const ImWchar* glyph, std::string id, bool compresed = false);
 	public:
 		// get private handlers
 		math_wraper::c_vector_2d get_size() {
@@ -65,6 +65,8 @@ namespace framework {
 	struct str_fonts {
 		c_font menu_default;
 		c_font sf_pro_regular;
+		c_font font_awesome;
+		c_font font_awesome_smaller;
 	};
 	inline const auto fonts = std::make_shared< str_fonts >();
 

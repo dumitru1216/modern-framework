@@ -1,5 +1,7 @@
 #include "../../inc.hh"
 #include "fonts/sf_pro.hh"
+#include "fonts/fa.hh"
+
 
 bool framework::c_font::setup(const std::string& font_location, float size)
 {
@@ -55,7 +57,7 @@ bool framework::c_font::setup(const std::string& font_location, float size, cons
 	return true;
 }
 
-bool framework::c_font::setup(void* data, int font_size, float size, std::string id)
+bool framework::c_font::setup(void* data, int font_size, float size, std::string id, bool compresed)
 {
 	// default imgui shit, we need to load these always for some reason
 	// dogshit stuff below
@@ -65,7 +67,7 @@ bool framework::c_font::setup(void* data, int font_size, float size, std::string
 
 	// font handler
 	// check if the font has been initialized
-	this->m_handle = io.Fonts->AddFontFromMemoryTTF(data, font_size, size);
+	this->m_handle = compresed ? io.Fonts->AddFontFromMemoryCompressedTTF(data, font_size, size) : io.Fonts->AddFontFromMemoryTTF(data, font_size, size);
 	if(this->m_handle == nullptr) {
 		// break the initialization font didnt initialize corectly
 		printf("memory font [%s], font sizeof [%i], size [%i] failed to initialize!\n", id.c_str(), (int)sizeof(data), /* fix warning */ (int)size);
@@ -82,7 +84,7 @@ bool framework::c_font::setup(void* data, int font_size, float size, std::string
 	return true;
 }
 
-bool framework::c_font::setup(void* data, int font_size, float size, const ImFontConfig* font_template, const ImWchar* glyph, std::string id)
+bool framework::c_font::setup(void* data, int font_size, float size, const ImFontConfig* font_template, const ImWchar* glyph, std::string id, bool compresed)
 {
 	// default imgui shit, we need to load these always for some reason
 	// dogshit stuff below
@@ -92,7 +94,7 @@ bool framework::c_font::setup(void* data, int font_size, float size, const ImFon
 
 	// font handler
 	// check if the font has been initialized
-	this->m_handle = io.Fonts->AddFontFromMemoryTTF(data, font_size, size, font_template, glyph);
+	this->m_handle = compresed ?io.Fonts->AddFontFromMemoryCompressedTTF(data, font_size, size, font_template, glyph): io.Fonts->AddFontFromMemoryTTF(data, font_size, size, font_template, glyph);
 	if(this->m_handle == nullptr) {
 		// break the initialization font didnt initialize corectly
 		printf("memory font [%s], font sizeof [%i], size [%i] failed to initialize!\n", id.c_str(), (int)sizeof(data), /* fix warning */ (int)size);
@@ -199,7 +201,15 @@ bool framework::c_render::initialize(IDirect3DDevice9* device, HWND window)
 	// resetup cfg
 	cfg = new ImFontConfig();
 	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_NoHinting;
-	fonts->sf_pro_regular.setup(sf_pro_regular, sizeof(sf_pro_regular), 16, cfg, NULL, "asd");
+	fonts->sf_pro_regular.setup(sf_pro_regular, sizeof(sf_pro_regular), 15, cfg, NULL, "asd");
+
+	cfg = new ImFontConfig();
+	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_NoHinting;
+
+	static const ImWchar icons_ranges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
+	fonts->font_awesome.setup((void*)FA_compressed_data, (int)FA_compressed_size, 16.0f, cfg, icons_ranges, "font_awesome", true);	
+
+	fonts->font_awesome_smaller.setup((void*)FA_compressed_data, (int)FA_compressed_size, 12.0f, cfg, icons_ranges, "font_awesome_smaller", true);
 
 	// build fonts
 	ImGuiFreeType::BuildFontAtlas(io.Fonts, 0);

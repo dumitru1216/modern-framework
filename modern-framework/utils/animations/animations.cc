@@ -45,4 +45,21 @@ namespace framework {
 		clamp?animation->second = std::clamp(adjust_to, 0.f, 1.f):
 			animation->second = adjust_to;
 	}
+	void anim_context_t::animate_int(float adjust_to, bool clamp, float min, float max)
+	{
+		auto animation = stack.find(m_id); // find stack id
+		// check if animation is at the end of the stack
+		if (animation == stack.end()) {
+			// insert new data to the animation
+			stack.insert({m_id, 0.f});
+
+			// update animation data with new stack id
+			animation = stack.find(m_id);
+		}
+
+		// cleaner
+		// it should work this way
+		clamp?animation->second = std::clamp(adjust_to, min, max):
+			animation->second = adjust_to;
+	}
 }

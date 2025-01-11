@@ -122,5 +122,11 @@
     <ClInclude Include="utils\animations\animations.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="utils\renderer\fonts\fa.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\renderer\fonts\fa6.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

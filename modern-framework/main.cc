@@ -56,6 +56,7 @@ int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nC
 			framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 
 			// font testing
+			// framework::fonts->font_awesome.draw(10, 10, ICON_FA_USER, math_wraper::c_color());
 			framework::fonts->menu_default.draw(100, 100, "This is a basic text!", math_wraper::c_color());
 			framework::fonts->menu_default.draw(100, 120, "This is an outlined text!", math_wraper::c_color(), framework::modifiers::font_flags::outline);
 			framework::fonts->menu_default.draw(100, 140, "This is a dropshadow test text!", math_wraper::c_color(), framework::modifiers::font_flags::drop_shadow);

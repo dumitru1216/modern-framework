@@ -175,6 +175,8 @@
     <ClInclude Include="utils\color.hh" />
     <ClInclude Include="utils\input.hh" />
     <ClInclude Include="utils\math.hh" />
+    <ClInclude Include="utils\renderer\fonts\fa.hh" />
+    <ClInclude Include="utils\renderer\fonts\fa6.hh" />
     <ClInclude Include="utils\renderer\fonts\sf_pro.hh" />
     <ClInclude Include="utils\renderer\renderer.hh" />
   </ItemGroup>
