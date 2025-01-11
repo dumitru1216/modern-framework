@@ -82,7 +82,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -139,10 +139,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="deps\imgui\imgui.cpp" />
+    <ClCompile Include="deps\imgui\imgui_draw.cpp" />
+    <ClCompile Include="deps\imgui\imgui_freetype.cpp" />
+    <ClCompile Include="deps\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="deps\imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="deps\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="deps\imgui\imgui_tables.cpp" />
+    <ClCompile Include="deps\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="utils\renderer\renderer.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="deps\imgui\imconfig.h" />
+    <ClInclude Include="deps\imgui\imgui.h" />
+    <ClInclude Include="deps\imgui\imgui_freetype.h" />
+    <ClInclude Include="deps\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="deps\imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="deps\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="deps\imgui\imgui_internal.h" />
+    <ClInclude Include="deps\imgui\imstb_rectpack.h" />
+    <ClInclude Include="deps\imgui\imstb_textedit.h" />
+    <ClInclude Include="deps\imgui\imstb_truetype.h" />
     <ClInclude Include="inc.hh" />
     <ClInclude Include="main.hh" />
     <ClInclude Include="utils\color.hh" />

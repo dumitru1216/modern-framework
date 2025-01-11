@@ -47,9 +47,9 @@
 // imgui includes
 #include "deps/imgui/imgui.h"
 #include "deps/imgui/imgui_impl_dx9.h"
-#include "deps/imgui/imgui_internal.h"
 #include "deps/imgui/imgui_impl_win32.h"
 #include "deps/imgui/imgui_freetype.h"
 
 #include "utils/math.hh"
+#include "utils/color.hh"
 #include "utils/renderer/renderer.hh"

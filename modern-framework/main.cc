@@ -35,6 +35,8 @@ int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nC
 	ShowWindow( g_pWindow, SW_SHOWDEFAULT );
 	UpdateWindow( g_pWindow );
 
+	gui::draw->initialize(g_pd3dDevice, g_pWindow);
+
 	MSG msg;
 	ZeroMemory( &msg, sizeof( msg ) );
 
@@ -51,7 +53,10 @@ int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nC
 		ImGui_ImplWin32_NewFrame( );
 		ImGui::NewFrame( );
 		{
+			gui::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 
+			// font testing
+			gui::fonts->menu_default.draw(100, 100, "This is a test drawing!", math_wraper::c_color());
 		}
 		ImGui::EndFrame( );
 

@@ -1,0 +1,10 @@
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_draw.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_draw.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_freetype.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_freetype.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_impl_dx11.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_impl_dx11.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_impl_dx9.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_impl_dx9.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_impl_win32.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_impl_win32.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_tables.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_tables.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_widgets.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_widgets.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\main.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\main.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\utils\renderer\renderer.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\renderer.obj
