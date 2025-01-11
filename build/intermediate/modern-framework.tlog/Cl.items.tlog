@@ -7,7 +7,8 @@ C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_impl
 C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_tables.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_tables.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\deps\imgui\imgui_widgets.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\imgui_widgets.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\container.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\container.obj
-C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\tab\tab.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\tab.obj
-C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\window\window.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\window.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\form\form.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\form.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\gui.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\gui.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\main.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\main.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\utils\animations\animations.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\animations.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\utils\renderer\renderer.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\renderer.obj

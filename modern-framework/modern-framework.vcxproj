@@ -152,6 +152,7 @@
     <ClCompile Include="framework\elements\form\form.cc" />
     <ClCompile Include="framework\elements\gui.cpp" />
     <ClCompile Include="main.cc" />
+    <ClCompile Include="utils\animations\animations.cc" />
     <ClCompile Include="utils\renderer\renderer.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClInclude Include="framework\elements\gui.hh" />
     <ClInclude Include="inc.hh" />
     <ClInclude Include="main.hh" />
+    <ClInclude Include="utils\animations\animations.hh" />
     <ClInclude Include="utils\color.hh" />
     <ClInclude Include="utils\input.hh" />
     <ClInclude Include="utils\math.hh" />

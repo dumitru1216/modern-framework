@@ -54,5 +54,6 @@
 #include "utils/color.hh"
 #include "utils/input.hh"
 #include "utils/renderer/renderer.hh"
+#include "utils/animations/animations.hh"
 #include "framework/elements/gui.hh"
 #include "framework/container.hh"

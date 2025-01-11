@@ -3,13 +3,17 @@
 
 namespace framework {
 	namespace modifiers {
+		struct tab_system_t {
+			std::string name, icon;
+		};
+
 		struct menu_ctx_t {
 			math_wraper::c_vector_2d pos = {100, 100},
 				size = {800, 600}, next_group_pos, parent_pos, parent_size;
 
 			// stackk
 			std::stack< math_wraper::c_vector_2d > cursor_pos_stack;
-			std::vector<std::string> tabs, subtabs{};
+			std::vector<tab_system_t> tabs, subtabs{};
 			size_t focused_id = 0;
 
 			int active_tab = 0, active_subtab = 0;

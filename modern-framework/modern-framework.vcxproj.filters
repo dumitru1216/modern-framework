@@ -54,6 +54,9 @@
     <ClCompile Include="framework\elements\form\form.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="utils\animations\animations.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc.hh">
@@ -114,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\elements\form\form.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\animations\animations.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

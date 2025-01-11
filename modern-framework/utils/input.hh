@@ -16,8 +16,8 @@ namespace input_wraper
 		return ImGui::IsKeyReleased(key);
 	}
 
-	__forceinline bool key_down(ImGuiKey key) {
-		return ImGui::IsKeyDown(key);
+	__forceinline bool key_down(int key) {
+		return GetAsyncKeyState(key);
 	}
 
 	__forceinline bool mouse_down(ImGuiMouseButton button) {

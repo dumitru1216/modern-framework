@@ -37,6 +37,10 @@ namespace math_wraper {
 			return c_color(red, green, blue);
 		}
 
+		c_color modulate(float anim) {
+			return c_color(r, g, b, anim * 255.f);
+		}
+
 		int r, g, b, a;
 	};
 }
