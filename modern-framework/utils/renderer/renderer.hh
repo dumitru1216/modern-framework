@@ -67,6 +67,7 @@ namespace framework {
 		c_font sf_pro_regular;
 		c_font font_awesome;
 		c_font font_awesome_smaller;
+		c_font sf_pro_bold;
 	};
 	inline const auto fonts = std::make_shared< str_fonts >();
 

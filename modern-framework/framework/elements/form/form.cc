@@ -2,13 +2,18 @@
 
 #define accent math_wraper::c_color().hex("7D87A3")
 
-bool framework::gui::form::begin_window(std::string name) 
+bool framework::gui::form::begin_window(std::string name)
 {
 	// animation
 	anim_context_t menu_open = g_anim_base.build(name);
 	menu_open.animate(menu_open.m_value + 3.f * g_anim_base.delta_time(0.5) * (
-		open ? 1.f : -1.f
+		open?1.f:-1.f
 	));
+
+	anim_context_t lmenu_open = g_anim_base.build(name + "#sa");
+	lmenu_open.animate_int(lmenu_open.m_value + 3.f * g_anim_base.delta_time(0.5) * (
+		open?255.f:-255.f
+	), true, 0.f, 100.f);
 
 	context->animation = menu_open.m_value;
 
@@ -39,6 +44,12 @@ bool framework::gui::form::begin_window(std::string name)
 
 	framework::draw->rect_filled(context->pos, context->size, math_wraper::c_color().hex("15161C").modulate(context->animation), 10);
 
+	// path
+	static std::string path = {};
+	static std::string second_path = {};
+	static std::string path_icon = {};
+	static std::string full_path = {};
+
 	if (!context->tabs.empty()) {
 		int pos_y = context->pos.y + 15;
 
@@ -58,8 +69,18 @@ bool framework::gui::form::begin_window(std::string name)
 				context->active_tab == i?255.f:-255.f
 			), true, 100.f, 255.f);
 
+			// check if its empty
+			if (path.empty())
+				path.append(tab.name).append(" > ");
+
 			if (input_wraper::mouse_in_region(tab_pos, tab_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
+				// delete cur path
+				path.clear();
+
 				context->active_tab = i;
+
+				// append new path
+				path.append(tab.name).append(" > ");
 			}
 
 			framework::draw->rect_filled(context->pos.x + 15, pos_y, 40, 40, accent.modulate(tab_act.m_value), 6);
@@ -85,8 +106,20 @@ bool framework::gui::form::begin_window(std::string name)
 			math_wraper::c_vector_2d tab_pos = math_wraper::c_vector_2d(context->pos.x + 80, pos_y);
 			math_wraper::c_vector_2d tab_size = math_wraper::c_vector_2d(180, 30);
 
+			if (path_icon.empty())
+				path_icon.append(subtab.icon);
+
+			if (second_path.empty())
+				second_path.append(subtab.name);
+
 			if (input_wraper::mouse_in_region(tab_pos, tab_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
+				path_icon.clear();
+				second_path.clear();
+
 				context->active_subtab = i;
+
+				path_icon.append(subtab.icon);
+				second_path.append(subtab.name);
 			}
 
 			anim_context_t subtab_act = g_anim_base.build(subtab.name);
@@ -103,7 +136,7 @@ bool framework::gui::form::begin_window(std::string name)
 			framework::draw->rect_filled(context->pos.x + 80, pos_y, 180, 30, math_wraper::c_color().hex("292B33").modulate(subtab_act.m_value), 6);
 			framework::fonts->font_awesome_smaller.draw(context->pos.x + 90,
 				pos_y + 15 - (framework::fonts->font_awesome_smaller.measure(subtab.icon).y * 0.5), subtab.icon, math_wraper::c_color().modulate(context->animation));
-			framework::fonts->sf_pro_regular.draw(context->pos.x + 90 + 20, pos_y + 15 - (framework::fonts->sf_pro_regular.measure(subtab.name).y * 0.5), subtab.name, math_wraper::c_color().modulate_normal(sub_limit.m_value));
+			framework::fonts->sf_pro_bold.draw(context->pos.x + 90 + 20, pos_y + 15 - (framework::fonts->sf_pro_bold.measure(subtab.name).y * 0.5), subtab.name, math_wraper::c_color().modulate_normal(sub_limit.m_value));
 
 			pos_y += 35;
 		}
@@ -111,9 +144,17 @@ bool framework::gui::form::begin_window(std::string name)
 		pos_y = 0;
 	}
 
+	framework::fonts->sf_pro_bold.draw(context->pos.x + 290, context->pos.y + 22, path, math_wraper::c_color().modulate_normal(lmenu_open.m_value));
+	framework::fonts->font_awesome.draw(context->pos.x + 295 + framework::fonts->sf_pro_bold.measure(path).x, context->pos.y + 22, path_icon, math_wraper::c_color());
+	framework::fonts->sf_pro_bold.draw(context->pos.x + 295 + framework::fonts->sf_pro_bold.measure(path).x + framework::fonts->font_awesome.measure(path_icon).x + 5,
+		context->pos.y + 22, second_path, math_wraper::c_color());
+
 	// clear data
 	context->tabs.clear();
 	context->subtabs.clear();
+
+	// push data
+	framework::gui::push_cursor_pos(math_wraper::c_vector_2d(290, 47));
 
 	return true;
 }

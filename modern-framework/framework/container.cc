@@ -1,4 +1,6 @@
 #include "../inc.hh"
+#include "elements/group/group.hh"
+
 
 void framework::c_container::run()
 {
@@ -11,8 +13,24 @@ void framework::c_container::run()
 	{
 		if (gui::form::add_tab("Ragebot", ICON_FA_LOCATION_CROSSHAIRS))
 		{
-			if (gui::form::add_subtab("General", ICON_FA_BOMB)) {
+			if (gui::form::add_subtab("General", ICON_FA_GEAR)) {
+				gui::group::begin_group(ICON_FA_GEAR, "General", "Generic aimbot settings.", math_wraper::c_vector_2d(50, 100));
+				{
 
+				}
+				gui::group::end_group();
+
+				gui::group::begin_group(ICON_FA_BOLT, "Accuracy", "Accuracy adjustments for aimbot.", math_wraper::c_vector_2d(50, 50));
+				{
+
+				}
+				gui::group::end_group();
+
+				gui::group::begin_group(ICON_FA_SUN, "Other", "Other aimbot settings.", math_wraper::c_vector_2d(50, 50));
+				{
+
+				}
+				gui::group::end_group();
 			}
 
 			if (gui::form::add_subtab("Accuracy", ICON_FA_BOLT)) {

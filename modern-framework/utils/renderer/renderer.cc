@@ -1,7 +1,7 @@
 #include "../../inc.hh"
 #include "fonts/sf_pro.hh"
 #include "fonts/fa.hh"
-
+#include "fonts/sf_pro_bold.hh"
 
 bool framework::c_font::setup(const std::string& font_location, float size)
 {
@@ -202,6 +202,10 @@ bool framework::c_render::initialize(IDirect3DDevice9* device, HWND window)
 	cfg = new ImFontConfig();
 	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_NoHinting;
 	fonts->sf_pro_regular.setup(sf_pro_regular, sizeof(sf_pro_regular), 15, cfg, NULL, "asd");
+
+	cfg = new ImFontConfig();
+	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_NoHinting;
+	fonts->sf_pro_bold.setup(sf_pro_bold, sizeof(sf_pro_bold), 15, cfg, NULL, "sf_pro_bold");
 
 	cfg = new ImFontConfig();
 	cfg->FontBuilderFlags |= ImGuiFreeTypeBuilderFlags_NoHinting;

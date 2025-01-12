@@ -57,6 +57,9 @@
     <ClCompile Include="utils\animations\animations.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="framework\elements\group\group.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc.hh">
@@ -126,6 +129,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="utils\renderer\fonts\fa6.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\renderer\fonts\sf_pro_bold.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\elements\group\group.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

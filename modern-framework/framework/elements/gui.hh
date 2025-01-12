@@ -9,7 +9,7 @@ namespace framework {
 
 		struct menu_ctx_t {
 			math_wraper::c_vector_2d pos = {100, 100},
-				size = {800, 600}, next_group_pos, parent_pos, parent_size;
+				size = {920, 600}, next_group_pos, parent_pos, parent_size;
 
 			// stackk
 			std::stack< math_wraper::c_vector_2d > cursor_pos_stack;
@@ -51,4 +51,5 @@ namespace framework {
 	}
 }
 
+#include "group/group.hh"
 #include "form/form.hh"
