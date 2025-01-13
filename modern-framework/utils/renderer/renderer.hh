@@ -91,6 +91,9 @@ namespace framework {
 			int rounding = 0, math_wraper::c_color backround_helper = math_wraper::c_color(), ImDrawFlags draw_flags = 0);
 		void gradient(int x, int y, int w, int h, math_wraper::c_color color, math_wraper::c_color color2, modifiers::gradient_flags flags,
 			int rounding = 0, math_wraper::c_color backround_helper = math_wraper::c_color(), ImDrawFlags draw_flags = 0);
+
+		void push_draw_limit(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size);
+		void restore_draw_limit();
 	};
 	inline const auto draw = std::make_shared<c_render>();
 }

@@ -250,12 +250,12 @@ void framework::c_render::rect(int x, int y, int w, int h, math_wraper::c_color 
 
 void framework::c_render::shadow(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, int rounding, int think)
 {
-	globals::m_draw_list->AddShadowRect(pos.transform(), pos.transform() + size.transform(), color.transform(), think, ImVec2(0, 0), 0, rounding);
+	globals::m_draw_list->AddShadowRect(pos.transform(), pos.transform() + size.transform(), color.transform(), think, ImVec2(0, 0), ImDrawFlags_RoundCornersMask_, rounding);
 }
 
 void framework::c_render::shadow(int x, int y, int w, int h, math_wraper::c_color color, int rounding, int think)
 {
-	globals::m_draw_list->AddShadowRect(ImVec2(x, y), ImVec2(x + w, y + h), color.transform(), think, ImVec2(0, 0), 0, rounding);
+	globals::m_draw_list->AddShadowRect(ImVec2(x, y), ImVec2(x + w, y + h), color.transform(), think, ImVec2(0, 0), ImDrawFlags_RoundCornersMask_, rounding);
 }
 
 void framework::c_render::gradient(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, 
@@ -306,4 +306,14 @@ void framework::c_render::gradient(int x, int y, int w, int h, math_wraper::c_co
 				color.transform(), color.transform(), color2.transform(), color2.transform());
 		}
 	}
+}
+
+void framework::c_render::push_draw_limit(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size)
+{
+	globals::m_draw_list->PushClipRect(pos.transform(), pos.transform() + size.transform(), true);
+}
+
+void framework::c_render::restore_draw_limit()
+{
+	globals::m_draw_list->PopClipRect();
 }

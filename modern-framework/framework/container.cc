@@ -4,7 +4,11 @@
 
 void framework::c_container::run()
 {
-	static bool open = false;
+	static bool test[100]{false};
+	static float slider = 0.f;
+	static int slider2 = 0.f;
+
+
 	if (GetAsyncKeyState(VK_INSERT) & 1) {
 		gui::form::open = !gui::form::open;
 	}
@@ -16,6 +20,12 @@ void framework::c_container::run()
 			if (gui::form::add_subtab("General", ICON_FA_GEAR)) {
 				gui::group::begin_group(ICON_FA_GEAR, "General", "Generic aimbot settings.", math_wraper::c_vector_2d(50, 100));
 				{
+					for (int i = 0; i < 2; i++)
+						gui::elements::checkbox("Checkbox " + std::to_string(i), &test[i]);
+
+					gui::elements::slider("Slider float", &slider, 0.f, 100.f);
+					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
+					gui::elements::slider("Slider int", &slider2, 0, 100);
 
 				}
 				gui::group::end_group();

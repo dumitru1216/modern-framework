@@ -45,6 +45,18 @@ namespace math_wraper {
 			return c_color(r, g, b, anim);
 		}
 
+		c_color blend(const c_color& other, float t) {
+			t = t < 0 ? 0 : (t > 1 ? 1 : t); // Clamp t to [0, 1]
+			float ease_t = t * t * (3 - 2 * t); // Ease in-out function
+
+			int blended_r = static_cast<int>(r + (other.r - r) * ease_t);
+			int blended_g = static_cast<int>(g + (other.g - g) * ease_t);
+			int blended_b = static_cast<int>(b + (other.b - b) * ease_t);
+			int blended_a = static_cast<int>(a + (other.a - a) * ease_t);
+
+			return c_color(blended_r, blended_g, blended_b, blended_a);
+		}
+
 		int r, g, b, a;
 	};
 }

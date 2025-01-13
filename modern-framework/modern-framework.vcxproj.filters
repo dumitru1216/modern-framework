@@ -60,6 +60,12 @@
     <ClCompile Include="framework\elements\group\group.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="framework\elements\checkbox\checkbox.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\elements\slider\slider.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc.hh">
@@ -135,6 +141,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\elements\group\group.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\elements\checkbox\checkbox.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\elements\slider\slider.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

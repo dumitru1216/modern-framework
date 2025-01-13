@@ -53,3 +53,5 @@ namespace framework {
 
 #include "group/group.hh"
 #include "form/form.hh"
+#include "checkbox/checkbox.hh"
+#include "slider/slider.hh"

@@ -64,11 +64,12 @@ void framework::gui::group::begin_group(const std::string& icon, const std::stri
 		// elements backplace 15161C
 		framework::draw->rect_filled(draw_pos + math_wraper::c_vector_2d(15, 60), group_size - math_wraper::c_vector_2d(30, 75), math_wraper::c_color().hex("15161C"), 6);
 
-
 		gp = draw_pos;
 		gs = group_size;
 
-		framework::gui::push_cursor_pos(cursor_pos + math_wraper::c_vector_2d(22, 23 + scrolling[id]));
+		// set drawing limit
+		framework::draw->push_draw_limit(draw_pos + math_wraper::c_vector_2d(15, 60), group_size - math_wraper::c_vector_2d(30, 75));
+		framework::gui::push_cursor_pos(cursor_pos + math_wraper::c_vector_2d(25, 72 + scrolling[id]));
 
 		framework::gui::context->parent = "root." + framework::gui::context->subtabs[framework::gui::context->active_subtab].name + "." + name;
 		framework::gui::context->next_group_pos = cursor_pos + math_wraper::c_vector_2d(0, group_size.y + 20);
@@ -82,11 +83,67 @@ void framework::gui::group::end_group()
 {
 	math_wraper::c_vector_2d v1 = framework::gui::pop_cursor_pos();
 	int max_height = (int) v1.y - ((int) gp.y - (int) framework::gui::context->pos.y) - scrolling[id];
-	int VisibleHeight = gs.y + 5;
+	int visbile_height = gs.y + 5;
 	framework::gui::push_cursor_pos(v1);
+
+	// scrolling system
+	int scrollbar_height, scrollbar_pos;
+	if (max_height > visbile_height) {
+		scrollbar_height = ((float) gs.y / (float) max_height) * gs.y;
+		scrollbar_pos = std::fmin(std::fmax((-(float) scrolling[id] / (float) max_height) * (float) gs.y, 2.f), gs.y - scrollbar_height - 2.f);
+
+		bool scrollbar_hovered = input_wraper::mouse_in_region(gp + math_wraper::c_vector_2d(gs.x - 6, scrollbar_pos), math_wraper::c_vector_2d(4, scrollbar_height));
+
+		if (context->focused_id == 0 || context->focused_id == id) {
+			bool hovered_main = input_wraper::mouse_in_region(gp, gs - math_wraper::c_vector_2d(6, 0));
+			bool hovered_scroll = input_wraper::mouse_in_region(gp + math_wraper::c_vector_2d(gs.x - 6, scrollbar_pos), math_wraper::c_vector_2d(4, scrollbar_height));
+
+			if (hovered_main || hovered_scroll || context->focused_id == id) {
+				if (context->focused_id != id && input_wraper::key_down(VK_LBUTTON) && hovered_scroll) {
+					context->focused_id = id;
+				}
+				else if (context->focused_id == id) {
+					if (input_wraper::key_down(VK_LBUTTON)) {
+						const auto scale = [](int in, int bmin, int bmax, int lmin, int lmax) {
+							return float((lmax - lmin) * (in - bmin)) / float(bmax - bmin) + lmin;
+						};
+
+						// i think not perfect
+						auto pizdo = std::fmax(float(float(gs.y * (gs.y - 12 * 2))
+							/ float(-max_height + (gs.y - 12 * 2))), 30.f);
+
+						//scrolling[id] += scale(InputHelper::MouseDelta.y, 0, gs.y - pizdo, 0, max_height);
+					}
+					else {
+						context->focused_id = 0;
+					}
+				}
+
+				if (context->focused_id != id) {
+					if (ImGui::GetIO().MouseWheel > 0) {
+						scrolling[id] = scrolling[id] + 100;
+					}
+					else if (ImGui::GetIO().MouseWheel < 0) {
+						scrolling[id] = scrolling[id] - 100;
+					}
+				}
+			}
+
+			context->dragging_scroll = context->focused_id == id;
+
+			// Interpolation for smooth scrolling
+			static float current_scroll = scrolling[id];
+			current_scroll = current_scroll + (scrolling[id] - current_scroll) * g_anim_base.delta_time(0.6f) * 5;
+			scrolling[id] = std::clamp<float>(current_scroll, -max_height + (int) gs.y, 0);
+		}
+	}
+	else {
+		scrolling[id] = 0;
+	}
 
 	framework::gui::push_cursor_pos(framework::gui::context->next_group_pos);
 	framework::gui::context->next_group_pos = math_wraper::c_vector_2d(0, 0);
+	framework::draw->restore_draw_limit();
 }
 
 void framework::gui::group::set_next_size(const math_wraper::c_vector_2d& size)
