@@ -27,6 +27,12 @@ void framework::c_container::run()
 					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
 					gui::elements::slider("Slider int", &slider2, 0, 100);
 					gui::elements::combo("Combo", {"Item 1", "Itemsbooboob 2", "Item 3", "Item 4"}, &combo);
+
+					gui::elements::multi_dropdown("Multi-dropdown", {
+						modifiers::multi_item_t("Value 1", &test[20]),
+						modifiers::multi_item_t("Value 2", &test[21]),
+						modifiers::multi_item_t("Value bigger", &test[22]),
+						});
 					
 				}
 				gui::group::end_group();

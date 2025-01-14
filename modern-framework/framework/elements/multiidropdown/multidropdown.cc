@@ -11,33 +11,32 @@ bool framework::gui::elements::multi_dropdown(const std::string& name, std::vect
 
 	bool hovered = input_wraper::mouse_in_region(draw_pos, draw_size) && input_wraper::mouse_in_region(context->parent_pos, context->parent_size);
 
-	auto total_size = 50 + framework::fonts->font_awesome_smaller.measure(ICON_FA_CHEVRON_DOWN).x;
-	total_size = std::clamp(total_size, 50, 150);
-
-	framework::draw->rect_filled(draw_pos + math_wraper::c_vector_2d(draw_size.x - (total_size + 18), -2), math_wraper::c_vector_2d(total_size + 18, 22),
-		math_wraper::c_color().hex("1D1E25"), 4);
-
 	// do not overcode this as alpha did
-	std::string to_show{};
-	if (to_show.empty())
-		to_show = "-";
+	//std::string to_show{};
+	std::string to_show = "-";
 
-	for (int i = 0; i < values.size(); i++) {
-		auto item = values[i];
+	for (const auto& item : values) {
 		if (!*item.value) // item is not enabled
 			continue;
 
-		to_show.append(item.name);
-		
-		// the master virgula
-		if (i != values.size() - 1)
-			to_show.append(
-				", ");
+		if (to_show == "-")
+			to_show = item.name;
+		else
+			to_show.append(", ").append(item.name);
 
-		// we could make a check to see if we have more than needed width, but meh, lets do it the retarded way or not
-		if (framework::fonts->sf_pro_bold.measure(to_show).x > 120)
-			to_show.resize(20); // we're gonna check later
+		// this is a retarded way?
+		if (framework::fonts->sf_pro_bold.measure(to_show).x > 120) {
+			to_show.resize(15); // we're gonna check later
+			// got more to work on this multi-dropdown but it works, no need to touch it
+			break;
+		}
 	}
+
+	auto total_size = framework::fonts->sf_pro_bold.measure(to_show).x + framework::fonts->font_awesome_smaller.measure(ICON_FA_CHEVRON_DOWN).x;
+	total_size = std::clamp(total_size, 50, 100);
+
+	framework::draw->rect_filled(draw_pos + math_wraper::c_vector_2d(draw_size.x - (total_size + 18), -2), math_wraper::c_vector_2d(total_size + 18, 22),
+		math_wraper::c_color().hex("1D1E25"), 4);
 
 	framework::fonts->sf_pro_bold.draw(draw_pos.x + draw_size.x - (total_size + 18) + 6, draw_pos.y + 1,
 		to_show, math_wraper::c_color().modulate_normal(200));
@@ -96,7 +95,10 @@ bool framework::gui::elements::multi_dropdown(const std::string& name, std::vect
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 
 		// reset
-		if (input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
+		auto text_pos = math_wraper::c_vector_2d(draw_pos + math_wraper::c_vector_2d(draw_size.x - 62 - (get_biggest_size(framework::fonts->sf_pro_bold, values) * 0.5), 30));
+		auto text_size = math_wraper::c_vector_2d(100, 20 * values.size());
+
+		if (!input_wraper::mouse_in_region(text_pos, text_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
 			context->focused_id = 0;
 		}
 	}
