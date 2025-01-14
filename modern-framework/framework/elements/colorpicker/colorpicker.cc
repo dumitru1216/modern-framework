@@ -13,5 +13,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 	draw_pos.x += draw_size.x - 60;
 
 	// lets do some drawing
+	framework::draw->rect_filled(draw_pos, math_wraper::c_vector_2d(25, 18), *color, 15);
+	framework::draw->rect(draw_pos, math_wraper::c_vector_2d(25, 18), math_wraper::c_color().hex("1D1E25"), 15);
 
 }
