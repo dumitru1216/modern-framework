@@ -19,6 +19,9 @@ bool framework::gui::elements::multi_dropdown(const std::string& name, std::vect
 
 	// do not overcode this as alpha did
 	std::string to_show{};
+	if (to_show.empty())
+		to_show = "-";
+
 	for (int i = 0; i < values.size(); i++) {
 		auto item = values[i];
 		if (!*item.value) // item is not enabled
@@ -29,13 +32,17 @@ bool framework::gui::elements::multi_dropdown(const std::string& name, std::vect
 		// the master virgula
 		if (i != values.size() - 1)
 			to_show.append(
-				",");
+				", ");
+
+		// we could make a check to see if we have more than needed width, but meh, lets do it the retarded way or not
+		if (framework::fonts->sf_pro_bold.measure(to_show).x > 120)
+			to_show.resize(20); // we're gonna check later
 	}
 
 	framework::fonts->sf_pro_bold.draw(draw_pos.x + draw_size.x - (total_size + 18) + 6, draw_pos.y + 1,
-		values[*var_name], math_wraper::c_color().modulate_normal(200));
+		to_show, math_wraper::c_color().modulate_normal(200));
 
-	framework::fonts->font_awesome_smaller.draw(draw_pos.x + (draw_size.x - (total_size + 18) + 5) + framework::fonts->sf_pro_bold.measure(values[*var_name]).x + 7,
+	framework::fonts->font_awesome_smaller.draw(draw_pos.x + (draw_size.x - (total_size + 18) + 5) + framework::fonts->sf_pro_bold.measure(to_show).x + 7,
 		draw_pos.y + 2, ICON_FA_CHEVRON_DOWN, math_wraper::c_color().modulate_normal(200));
 
 	anim_context_t opened_drop = g_anim_base.build(name);
@@ -74,12 +81,12 @@ bool framework::gui::elements::multi_dropdown(const std::string& name, std::vect
 			auto text_pos = math_wraper::c_vector_2d(draw_pos + math_wraper::c_vector_2d(draw_size.x - 62 - (get_biggest_size(framework::fonts->sf_pro_bold, values) * 0.5), 30 + (20 * i) * opened_drop.m_value));
 			auto text_size = math_wraper::c_vector_2d(framework::fonts->sf_pro_bold.measure(values[i].name).x, 20);
 			if (input_wraper::mouse_in_region(text_pos, text_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
-				*var_name = i;
+				*values[i].value = !*values[i].value;
 			}
 
 			// item selected animation
 			anim_context_t selected_item = g_anim_base.build(values[i].name);
-			selected_item.animate_int(selected_item.m_value + 3.f * g_anim_base.delta_time(0.5f) * (*var_name == i?255.f:-255.f), true, 150.f, 255.f);
+			selected_item.animate_int(selected_item.m_value + 3.f * g_anim_base.delta_time(0.5f) * (*values[i].value?255.f:-255.f), true, 150.f, 255.f);
 
 			framework::fonts->sf_pro_bold.draw(text_pos.x, text_pos.y,
 				values[i].name, math_wraper::c_color().modulate_normal(selected_item.m_value));
