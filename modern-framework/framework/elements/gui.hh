@@ -59,3 +59,4 @@ namespace framework {
 #include "multidropdown/multidropdown.hh"
 #include "label/label.hh"
 #include "button/button.hh"
+#include "colorpicker/colorpicker.hh"
