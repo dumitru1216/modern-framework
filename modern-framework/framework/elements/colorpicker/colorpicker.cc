@@ -51,7 +51,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		// overide to foreground layer
 		framework::globals::m_draw_list = ImGui::GetForegroundDrawList();
 
-		// drawing goes in there
+		auto picker_size = math_wraper::c_vector_2d(200, 175);
 
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
