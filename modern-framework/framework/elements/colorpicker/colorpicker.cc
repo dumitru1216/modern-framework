@@ -87,19 +87,13 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 
 		// drawing goes down
 		// hsv selector
-		/*
-		Render::DirectX::gradient_h( ColorDrawPos, ColorDrawSize + Vector2D( 0, 1 ), Color( 255, 255, 255 ),
-				Color::HSVtoRGB( NewHue, 1, 1 ).OverrideAlpha( 255 ) );
-
-			Render::DirectX::gradient_v( ColorDrawPos, ColorDrawSize + 1, Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 255 ) );
-			Render::DirectX::rect( ColorDrawPos, ColorDrawSize, Color( 10, 10, 10, 255 ) );
-		*/
-
 		framework::draw->gradient(pos + math_wraper::c_vector_2d(10, 10), picker_size - math_wraper::c_vector_2d(20, 50),
 			math_wraper::c_color(255, 255, 255).modulate(colorpic_open.m_value), math_wraper::c_color::hsv_to_rgb(new_hue, 1, 1).modulate(colorpic_open.m_value), 
 			framework::modifiers::vertical, 8, math_wraper::c_color().hex("15161C").modulate(colorpic_open.m_value), ImDrawCornerFlags_TopLeft | ImDrawCornerFlags_TopRight | ImDrawCornerFlags_BotRight | ImDrawCornerFlags_BotLeft);
 
-		
+		framework::draw->gradient(pos + math_wraper::c_vector_2d(10, 10), picker_size - math_wraper::c_vector_2d(20, 50),
+			math_wraper::c_color(0,0,0,0), math_wraper::c_color(0, 0, 0, 255).modulate(colorpic_open.m_value),
+			framework::modifiers::horizontal, 8, math_wraper::c_color().hex("15161C").modulate(colorpic_open.m_value), ImDrawCornerFlags_TopLeft | ImDrawCornerFlags_TopRight | ImDrawCornerFlags_BotRight | ImDrawCornerFlags_BotLeft);
 
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
