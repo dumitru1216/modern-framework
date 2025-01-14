@@ -41,6 +41,12 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 	}
 	// normal colorpicker is opened
 	else if (context->focused_id == framework::gui::hash(name)) {
+		// yeah thats pretty dogshit to make an animation with but whatever
+		// if this is not going right the animation will be fucked prob
+		// we might remake in next menu on this framework to be better :*
+		anim_context_t colorpic_open = g_anim_base.build(name);
+		colorpic_open.animate(colorpic_open.m_value + 3.f * g_anim_base.delta_time(0.5) * context->focused_id == framework::gui::hash(name)?1.f:-1.f);
+
 		// we are going to override the drawlist first
 		// overide to foreground layer
 		framework::globals::m_draw_list = ImGui::GetForegroundDrawList();
@@ -52,6 +58,12 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 	}
 	// copy paste popup is opened
 	else if (context->focused_id == framework::gui::hash(name) + adhd) {
+		// yeah thats pretty dogshit to make an animation with but whatever
+		// if this is not going right the animation will be fucked prob
+		// we might remake in next menu on this framework to be better :*
+		anim_context_t colorpic_open = g_anim_base.build(name + std::to_string(adhd)); // add the overrider class so the hash wont be the same on animation ctx
+		colorpic_open.animate(colorpic_open.m_value + 3.f * g_anim_base.delta_time(0.5) * context->focused_id == framework::gui::hash(name)?1.f:-1.f);
+
 		// we are going to override the drawlist first
 		// overide to foreground layer
 		framework::globals::m_draw_list = ImGui::GetForegroundDrawList();
