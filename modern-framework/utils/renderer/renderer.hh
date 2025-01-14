@@ -88,7 +88,7 @@ namespace framework {
 		void shadow(int x, int y, int w, int h, math_wraper::c_color color, int rounding = 0, int think = 5);
 
 		void gradient(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, math_wraper::c_color color2, modifiers::gradient_flags flags,
-			int rounding = 0, math_wraper::c_color backround_helper = math_wraper::c_color(), ImDrawFlags draw_flags = 0);
+			int rounding = 0, math_wraper::c_color backround_helper = math_wraper::c_color(), ImDrawFlags draw_flags = ImDrawFlags_RoundCornersAll);
 		void gradient(int x, int y, int w, int h, math_wraper::c_color color, math_wraper::c_color color2, modifiers::gradient_flags flags,
 			int rounding = 0, math_wraper::c_color backround_helper = math_wraper::c_color(), ImDrawFlags draw_flags = 0);
 

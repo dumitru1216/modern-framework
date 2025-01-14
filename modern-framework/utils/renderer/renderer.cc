@@ -264,7 +264,7 @@ void framework::c_render::gradient(math_wraper::c_vector_2d pos, math_wraper::c_
 	if (flags == modifiers::vertical) {
 		if (rounding != 0) {
 			globals::m_draw_list->AddRectFilledMultiColorRounded(pos.transform(), pos.transform() + size.transform(),
-				backround_helper.transform(), color.transform(), color2.transform(), color2.transform(), color.transform(), rounding, flags);
+				backround_helper.transform(), color.transform(), color2.transform(), color2.transform(), color.transform(), rounding, draw_flags);
 		}
 		else {
 			globals::m_draw_list->AddRectFilledMultiColor(pos.transform(), pos.transform() + size.transform(),
@@ -274,7 +274,7 @@ void framework::c_render::gradient(math_wraper::c_vector_2d pos, math_wraper::c_
 	else {
 		if (rounding != 0) {
 			globals::m_draw_list->AddRectFilledMultiColorRounded(pos.transform(), pos.transform() + size.transform(),
-				backround_helper.transform(), color.transform(), color.transform(), color2.transform(), color2.transform(), rounding, flags);
+				backround_helper.transform(), color.transform(), color.transform(), color2.transform(), color2.transform(), rounding, draw_flags);
 		}
 		else {
 			globals::m_draw_list->AddRectFilledMultiColor(pos.transform(), pos.transform() + size.transform(),

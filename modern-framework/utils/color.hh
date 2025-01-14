@@ -57,6 +57,92 @@ namespace math_wraper {
 			return c_color(blended_r, blended_g, blended_b, blended_a);
 		}
 
+		// colorpicker stuff
+		struct hsv_context_t {
+			float hue, saturation, value;
+		};
+
+		static c_color hsv_to_rgb(float hue, float sat, float val) {
+			float red, grn, blu;
+			float i, f, p, q, t;
+			c_color result;
+
+			if (val == 0) {
+				red = 0;
+				grn = 0;
+				blu = 0;
+			}
+			else {
+				hue /= 60;
+				i = floor(hue);
+				f = hue - i;
+				p = val * (1 - sat);
+				q = val * (1 - (sat * f));
+				t = val * (1 - (sat * (1 - f)));
+				if (i == 0) {
+					red = val;
+					grn = t;
+					blu = p;
+				}
+				else if (i == 1) {
+					red = q;
+					grn = val;
+					blu = p;
+				}
+				else if (i == 2) {
+					red = p;
+					grn = val;
+					blu = t;
+				}
+				else if (i == 3) {
+					red = p;
+					grn = q;
+					blu = val;
+				}
+				else if (i == 4) {
+					red = t;
+					grn = p;
+					blu = val;
+				}
+				else if (i == 5) {
+					red = val;
+					grn = p;
+					blu = q;
+				}
+			}
+
+			result = c_color(int(red * 255), int(grn * 255), int(blu * 255));
+			return result;
+		}
+
+		static hsv_context_t rgb_to_hsv(c_color a) {
+			float red, grn, blu;
+			red = (float) a.r / 255.f;
+			grn = (float) a.g / 255.f;
+			blu = (float) a.b / 255.f;
+			float hue, sat, val;
+			float x, f, i;
+			hsv_context_t result;
+
+			x = std::fmin(std::fmin(red, grn), blu);
+			val = std::fmax(std::fmax(red, grn), blu);
+			if (x == val) {
+				hue = 0;
+				sat = 0;
+			}
+			else {
+				f = (red == x)?grn - blu:((grn == x)?blu - red:red - grn);
+				i = (red == x)?3:((grn == x)?5:1);
+				hue = fmod((i - f / (val - x)) * 60, 360);
+				sat = ((val - x) / val);
+			}
+			result.hue = hue;
+			result.saturation = sat;
+			result.value = val;
+
+			return result;
+		}
+
 		int r, g, b, a;
 	};
 }
