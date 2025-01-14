@@ -3,7 +3,7 @@
 // im not fucking responsable for the horid code going downwards
 // excuse me but this is a dogwater shit DOGSHIT CODE
 void framework::gui::elements::color_selector(const std::string& name, math_wraper::c_color* color, 
-	bool inlined = true)
+	bool inlined)
 {
 	math_wraper::c_vector_2d cursor_pos = framework::gui::pop_cursor_pos(),
 		draw_pos = context->pos + cursor_pos,

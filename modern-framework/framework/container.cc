@@ -9,6 +9,8 @@ void framework::c_container::run()
 	static int slider2 = 0.f;
 	static int combo = 0;
 
+	static math_wraper::c_color test_c[5]{};
+
 	if (GetAsyncKeyState(VK_INSERT) & 1) {
 		gui::form::open = !gui::form::open;
 	}
@@ -24,6 +26,7 @@ void framework::c_container::run()
 						gui::elements::checkbox("Checkbox " + std::to_string(i), &test[i]);
 
 					gui::elements::slider("Slider float", &slider, 0.f, 100.f);
+					gui::elements::color_selector("Just a colorpecer", &test_c[0], true);
 					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
 					gui::elements::slider("Slider int", &slider2, 0, 100);
 					gui::elements::combo("Combo", {"Item 1", "Itemsbooboob 2", "Item 3", "Item 4"}, &combo);
@@ -34,6 +37,9 @@ void framework::c_container::run()
 						modifiers::multi_item_t("Value bigger", &test[22]),
 						});
 					
+					gui::elements::color_selector("Just a colorpecer 2", &test_c[1], true);
+					gui::elements::label("Test colorpecher");
+
 					gui::elements::button("Test button", []() {});
 				}
 				gui::group::end_group();

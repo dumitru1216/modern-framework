@@ -1,7 +1,7 @@
 #include "../../inc.hh"
 
 // ez as fuck, took me 2 mins
-bool framework::gui::elements::label(std::string& label)
+bool framework::gui::elements::label(const std::string& label)
 {
 	math_wraper::c_vector_2d cursor_pos = framework::gui::pop_cursor_pos(),
 		draw_pos = context->pos + cursor_pos,
