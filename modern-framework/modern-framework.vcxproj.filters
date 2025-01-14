@@ -69,10 +69,13 @@
     <ClCompile Include="framework\elements\combo\combo.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="framework\elements\multiidropdown\multidropdown.cc">
+    <ClCompile Include="framework\elements\multidropdown\multidropdown.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="framework\elements\label\label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\elements\button\button.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,10 +164,13 @@
     <ClInclude Include="framework\elements\combo\combo.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="framework\elements\multiidropdown\multidropdown.hh">
+    <ClInclude Include="framework\elements\multidropdown\multidropdown.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\elements\label\label.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\elements\button\button.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
