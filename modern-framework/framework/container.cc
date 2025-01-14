@@ -37,7 +37,7 @@ void framework::c_container::run()
 						modifiers::multi_item_t("Value bigger", &test[22]),
 						});
 					
-					gui::elements::color_selector("Just a colorpecer 2", &test_c[1], true);
+					gui::elements::color_selector("Just a colorpecer 2", &test_c[1], false);
 					gui::elements::label("Test colorpecher");
 
 					gui::elements::button("Test button", []() {});
