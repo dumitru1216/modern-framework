@@ -72,6 +72,9 @@
     <ClCompile Include="framework\elements\multiidropdown\multidropdown.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="framework\elements\label\label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc.hh">
@@ -159,6 +162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\elements\multiidropdown\multidropdown.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\elements\label\label.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

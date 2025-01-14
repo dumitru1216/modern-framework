@@ -57,3 +57,4 @@ namespace framework {
 #include "slider/slider.hh"
 #include "combo/combo.hh"
 #include "multiidropdown/multidropdown.hh"
+#include "label/label.hh"
