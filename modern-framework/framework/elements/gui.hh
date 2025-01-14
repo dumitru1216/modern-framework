@@ -55,3 +55,4 @@ namespace framework {
 #include "form/form.hh"
 #include "checkbox/checkbox.hh"
 #include "slider/slider.hh"
+#include "combo/combo.hh"

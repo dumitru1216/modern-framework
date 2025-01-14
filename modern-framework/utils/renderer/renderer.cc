@@ -239,7 +239,7 @@ void framework::c_render::rect_filled(int x, int y, int w, int h, math_wraper::c
 void framework::c_render::rect(math_wraper::c_vector_2d pos, math_wraper::c_vector_2d size, math_wraper::c_color color, int rounding, float thick)
 {
 	// ImDrawListFlags_AntiAliasedLines for testing
-	globals::m_draw_list->AddRect(pos.transform(), pos.transform() + size.transform(), color.transform(), rounding, ImDrawListFlags_AntiAliasedLines, thick);
+	globals::m_draw_list->AddRect(pos.transform(), pos.transform() + size.transform(), color.transform(), rounding, 0, thick);
 }
 
 void framework::c_render::rect(int x, int y, int w, int h, math_wraper::c_color color, int rounding, float thick)

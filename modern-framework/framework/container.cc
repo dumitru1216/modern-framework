@@ -7,7 +7,7 @@ void framework::c_container::run()
 	static bool test[100]{false};
 	static float slider = 0.f;
 	static int slider2 = 0.f;
-
+	static int combo = 0;
 
 	if (GetAsyncKeyState(VK_INSERT) & 1) {
 		gui::form::open = !gui::form::open;
@@ -26,7 +26,8 @@ void framework::c_container::run()
 					gui::elements::slider("Slider float", &slider, 0.f, 100.f);
 					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
 					gui::elements::slider("Slider int", &slider2, 0, 100);
-
+					gui::elements::combo("Combo", {"Item 1", "Itemsbooboob 2", "Item 3", "Item 4"}, &combo);
+					
 				}
 				gui::group::end_group();
 
