@@ -56,3 +56,4 @@ namespace framework {
 #include "checkbox/checkbox.hh"
 #include "slider/slider.hh"
 #include "combo/combo.hh"
+#include "multiidropdown/multidropdown.hh"
