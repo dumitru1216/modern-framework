@@ -3,7 +3,7 @@
 namespace framework {
 	namespace gui {
 		namespace elements {
-			void label(std::string& label);
+			bool label(std::string& label);
 		}
 	}
 }

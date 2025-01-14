@@ -1,7 +1,7 @@
 #include "../../inc.hh"
 
 // ez as fuck, took me 2 mins
-void framework::gui::elements::label(std::string& label)
+bool framework::gui::elements::label(std::string& label)
 {
 	math_wraper::c_vector_2d cursor_pos = framework::gui::pop_cursor_pos(),
 		draw_pos = context->pos + cursor_pos,
@@ -13,4 +13,5 @@ void framework::gui::elements::label(std::string& label)
 	framework::gui::push_cursor_pos(cursor_pos + math_wraper::c_vector_2d(0, draw_size.y + 12));
 	pop_last_control();
 
+	return (label.size() > 0);
 }

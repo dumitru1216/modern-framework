@@ -34,6 +34,7 @@ void framework::c_container::run()
 						modifiers::multi_item_t("Value bigger", &test[22]),
 						});
 					
+					gui::elements::button("Test button", []() {});
 				}
 				gui::group::end_group();
 
