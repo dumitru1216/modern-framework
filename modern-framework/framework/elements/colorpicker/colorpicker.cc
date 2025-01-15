@@ -1,5 +1,7 @@
 #include "../../inc.hh"
 
+// TO DO, fix hue dog
+
 // im not fucking responsable for the horid code going downwards
 // excuse me but this is a dogwater shit DOGSHIT CODE
 #define adhd 69 // retardness
@@ -43,7 +45,10 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 				// copy paste elements popup
 				context->focused_id = framework::gui::hash(name) + adhd;
 		}
+
+		color_picker_hue = -1.f;
 	}
+
 	// normal colorpicker is opened
 	else if (context->focused_id == framework::gui::hash(name)) {
 		// store colorpicker alpha stuff
@@ -70,7 +75,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		math_wraper::c_color::hsv_context_t ctx = math_wraper::c_color::rgb_to_hsv(*color);
 
 		// fix hue
-		float new_hue;
+		float new_hue{ctx.hue};
 		if (color_picker_hue == -1.f) {
 			new_hue = ctx.hue; // get it from the context
 			color_picker_hue = new_hue; // alloc the value to the var
@@ -78,6 +83,12 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		else {
 			new_hue = color_picker_hue; // alloc again
 		}
+		
+		if (color_picker_hue != new_hue) {
+			new_hue = ctx.hue; // get it from the context
+			color_picker_hue = new_hue; // alloc the value to the var
+		}
+		
 
 		// some other shits that alpha did
 		float new_saturation = ctx.saturation;
@@ -264,7 +275,8 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 
 		// we pressed out of the ctx body
-		if (!hover && input_wraper::mouse_clicked(ImGuiMouseButton_Left))
+		auto body = input_wraper::mouse_in_region(pos, picker_size);
+		if (!body && input_wraper::mouse_clicked(ImGuiMouseButton_Left))
 			context->focused_id = 0; // reset
 	}
 	// copy paste popup is opened
