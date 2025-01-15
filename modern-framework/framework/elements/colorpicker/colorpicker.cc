@@ -155,7 +155,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		// positions
 		math_wraper::c_vector_2d hsv_selector_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, 10)),
 			hsv_bar_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, hsv_size.y + 15)),
-			alpha_bar_pos = hsv_bar_pos + math_wraper::c_vector_2d(0, 20);
+			alpha_bar_pos = hsv_bar_pos + math_wraper::c_vector_2d(0, 17);
 
 		// sizing
 		math_wraper::c_vector_2d bar_size = math_wraper::c_vector_2d(hsv_size.x, 8);
@@ -169,6 +169,10 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		else if (input_wraper::mouse_in_region(hsv_bar_pos, bar_size) && input_wraper::key_down(VK_LBUTTON)
 			&& !framework::modifiers::g_color_modifiers->m_editing_alpha && !framework::modifiers::g_color_modifiers->m_picking_color) {
 			framework::modifiers::g_color_modifiers->m_editing_hue = true;
+		}
+		else if (input_wraper::mouse_in_region(alpha_bar_pos, bar_size) && input_wraper::key_down(VK_LBUTTON)
+			&& !framework::modifiers::g_color_modifiers->m_editing_hue && !framework::modifiers::g_color_modifiers->m_picking_color) {
+			framework::modifiers::g_color_modifiers->m_editing_alpha = true;
 		}
 
 		// increase it animation
@@ -201,6 +205,17 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 				framework::modifiers::g_color_modifiers->m_editing_hue = false;
 			}
 		}
+		else if (framework::modifiers::g_color_modifiers->m_editing_alpha) {
+			if (input_wraper::key_down(VK_LBUTTON)) {
+				float final = std::clamp<float>(framework::gui::map_number(std::clamp<float>(math_wraper::c_vector_2d(
+					input_wraper::get_mouse_position() - alpha_bar_pos).x, 0, hsv_size.x), 0, hsv_size.x, 0, 255), 0, 255);
+
+				color_picker_alpha.at(context->focused_id) = final;
+			}
+			else {
+				framework::modifiers::g_color_modifiers->m_editing_alpha = false;
+			}
+		}
 
 		// we need to store prev hsv position, add a static to do that
 		static math_wraper::c_vector_2d previous_position_hsv = preview_position_hsv;
@@ -223,6 +238,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		*color = math_wraper::c_color(math_wraper::c_color::hsv_to_rgb(new_hue, std::clamp<float>(new_saturation, 0.0f, 1.0f),
 			std::clamp<float>(new_value, 0.0f, 1.0f)).modulate_normal(color_picker_alpha.at(context->focused_id)));
 
+		// HUE
 		// static to store prev additive
 		static float previous_hue_add = 0.0f;
 
@@ -233,8 +249,23 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		framework::draw->rect_filled(hsv_bar_pos + math_wraper::c_vector_2d(-3 + ((previous_hue_add - 3) < 0?1:previous_hue_add - 2), -2),
 			math_wraper::c_vector_2d(8, 10), math_wraper::c_color().modulate_normal(200), 15);
 
+		// ALPHA
+		// static to store prev additive
+		static float previous_alpha_add = 0.0f;
+
+		// calc the new hue additive
+		float alpha_add = (hsv_size.x * (color_picker_alpha.at(context->focused_id) / 255.f));
+		previous_alpha_add = previous_alpha_add + (alpha_add - previous_alpha_add) * interpolation_speed; // update prev additive
+
+		framework::draw->rect_filled(alpha_bar_pos + math_wraper::c_vector_2d(-3 + ((previous_alpha_add - 3) < 0?1:previous_alpha_add - 2), -4),
+			math_wraper::c_vector_2d(8, 10), math_wraper::c_color().modulate_normal(200), 15);
+
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
+
+		// we pressed out of the ctx body
+		if (!hover && input_wraper::mouse_clicked(ImGuiMouseButton_Left))
+			context->focused_id = 0; // reset
 	}
 	// copy paste popup is opened
 	else if (context->focused_id == framework::gui::hash(name) + adhd) {
