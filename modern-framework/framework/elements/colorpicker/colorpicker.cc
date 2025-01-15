@@ -138,10 +138,6 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 
 		// iterate
 		for (int first_line = 0; first_line < 44; first_line++) {
-			// render
-			//g_render_engine->rect_filled(first_line_start, alpha_pos.y + 1, 2, 2, c_color(255, 255, 255, 150));
-			//g_render_engine->rect_filled(second_line_start, alpha_pos.y + 3, 2, 2, c_color(255, 255, 255, 150));
-
 			framework::draw->rect_filled(math_wraper::c_vector_2d(first_line_start, checkmark_pos.y + 1), math_wraper::c_vector_2d(2, 2),
 				math_wraper::c_color(255, 255, 255, 150), 1);
 			framework::draw->rect_filled(math_wraper::c_vector_2d(second_line_start, checkmark_pos.y + 3), math_wraper::c_vector_2d(2, 2),
@@ -158,7 +154,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		// preparation for input handling
 		// positions
 		math_wraper::c_vector_2d hsv_selector_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, 10)),
-			hsv_bar_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, hsv_size.y + 10)),
+			hsv_bar_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, hsv_size.y + 15)),
 			alpha_bar_pos = hsv_bar_pos + math_wraper::c_vector_2d(0, 20);
 
 		// sizing
@@ -169,6 +165,10 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 			&& !framework::modifiers::g_color_modifiers->m_editing_alpha && !framework::modifiers::g_color_modifiers->m_editing_hue) { // we have to make sure we wont interract with anythign else
 			// we pick the color
 			framework::modifiers::g_color_modifiers->m_picking_color = true;
+		}
+		else if (input_wraper::mouse_in_region(hsv_bar_pos, bar_size) && input_wraper::key_down(VK_LBUTTON)
+			&& !framework::modifiers::g_color_modifiers->m_editing_alpha && !framework::modifiers::g_color_modifiers->m_picking_color) {
+			framework::modifiers::g_color_modifiers->m_editing_hue = true;
 		}
 
 		// increase it animation
@@ -186,12 +186,19 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 
 				new_saturation = s;
 				new_value = v;
-
-				printf("here\n");
 			}
 			else {
 				// reset
 				framework::modifiers::g_color_modifiers->m_picking_color = false;
+			}
+		}
+		else if (framework::modifiers::g_color_modifiers->m_editing_hue) {
+			if (input_wraper::key_down(VK_LBUTTON)) {
+				new_hue = std::clamp(((ImGui::GetIO().MousePos.x - hsv_bar_pos.x) / hsv_size.x) * 359.f, 0.01f, 359.f);
+				color_picker_hue = new_hue;
+			}
+			else {
+				framework::modifiers::g_color_modifiers->m_editing_hue = false;
 			}
 		}
 
@@ -215,6 +222,16 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 
 		*color = math_wraper::c_color(math_wraper::c_color::hsv_to_rgb(new_hue, std::clamp<float>(new_saturation, 0.0f, 1.0f),
 			std::clamp<float>(new_value, 0.0f, 1.0f)).modulate_normal(color_picker_alpha.at(context->focused_id)));
+
+		// static to store prev additive
+		static float previous_hue_add = 0.0f;
+
+		// calc the new hue additive
+		float hue_add = (hsv_size.x * (new_hue / 360.f));
+		previous_hue_add = previous_hue_add + (hue_add - previous_hue_add) * interpolation_speed; // update prev additive
+
+		framework::draw->rect_filled(hsv_bar_pos + math_wraper::c_vector_2d(-3 + ((previous_hue_add - 3) < 0?1:previous_hue_add - 2), -2),
+			math_wraper::c_vector_2d(8, 10), math_wraper::c_color().modulate_normal(200), 15);
 
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();

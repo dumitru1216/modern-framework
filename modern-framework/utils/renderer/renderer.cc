@@ -212,7 +212,6 @@ bool framework::c_render::initialize(IDirect3DDevice9* device, HWND window)
 
 	static const ImWchar icons_ranges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
 	fonts->font_awesome.setup((void*)FA_compressed_data, (int)FA_compressed_size, 16.0f, cfg, icons_ranges, "font_awesome", true);	
-
 	fonts->font_awesome_smaller.setup((void*)FA_compressed_data, (int)FA_compressed_size, 12.0f, cfg, icons_ranges, "font_awesome_smaller", true);
 
 	// build fonts
