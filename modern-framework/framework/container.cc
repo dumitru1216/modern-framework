@@ -38,6 +38,7 @@ void framework::c_container::run()
 						});
 					
 					gui::elements::color_selector("Just a colorpecer 2", &test_c[1], false);
+					gui::elements::color_selector("Just a colorpecer4", &test_c[3], true);
 					gui::elements::label("Test colorpecher");
 
 					gui::elements::button("Test button", []() {});
