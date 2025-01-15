@@ -127,6 +127,8 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 			hsv_flags = ImDrawCornerFlags_None;
 		}
 
+		// alpha bar
+
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 	}
