@@ -96,7 +96,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 			framework::modifiers::horizontal, 8, math_wraper::c_color().hex("15161C").modulate(colorpic_open.m_value), ImDrawCornerFlags_TopLeft | ImDrawCornerFlags_TopRight | ImDrawCornerFlags_BotRight | ImDrawCornerFlags_BotLeft);
 
 		// hsv bar drawing
-		auto hsv_size = picker_size - math_wraper::c_vector_2d(20, 50);
+		math_wraper::c_vector_2d hsv_size = picker_size - math_wraper::c_vector_2d(20, 50);
 		int divided_size = hsv_size.x / 6;
 		
 		// cols
@@ -128,7 +128,32 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		}
 
 		// alpha bar
+		// checkmark edition
+		math_wraper::c_vector_2d checkmark_pos = pos + math_wraper::c_vector_2d(10, hsv_size.y + 30);
 
+		// define lines
+		int first_line_start = pos.x + 12;
+		int second_line_start = pos.x + 14;
+
+		// iterate
+		for (int first_line = 0; first_line < 44; first_line++) {
+			// render
+			//g_render_engine->rect_filled(first_line_start, alpha_pos.y + 1, 2, 2, c_color(255, 255, 255, 150));
+			//g_render_engine->rect_filled(second_line_start, alpha_pos.y + 3, 2, 2, c_color(255, 255, 255, 150));
+
+			framework::draw->rect_filled(math_wraper::c_vector_2d(first_line_start, checkmark_pos.y + 1), math_wraper::c_vector_2d(2, 2),
+				math_wraper::c_color(255, 255, 255, 150), 1);
+			framework::draw->rect_filled(math_wraper::c_vector_2d(second_line_start, checkmark_pos.y + 3), math_wraper::c_vector_2d(2, 2),
+				math_wraper::c_color(255, 255, 255, 150), 1);
+
+			// push to new line inex
+			first_line_start += 4;
+			second_line_start += 4;
+		}
+
+		// draw the rect now
+		framework::draw->rect_filled(checkmark_pos, math_wraper::c_vector_2d(hsv_size.x, 6), color->modulate_normal(color->a), 8);
+	
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 	}
