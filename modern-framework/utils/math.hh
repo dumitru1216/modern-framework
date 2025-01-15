@@ -30,6 +30,14 @@ namespace math_wraper {
 			return *this;
 		}
 
+		c_vector_2d operator+(const c_vector_2d& v) const {
+			return c_vector_2d(this->x + v.x, this->y + v.y);
+		}
+
+		c_vector_2d operator-(const c_vector_2d& v) const {
+			return c_vector_2d(this->x - v.x, this->y - v.y);
+		}
+
 		c_vector_2d& operator-=( const c_vector_2d& v ) {
 			this->x -= v.x; this->y -= v.y;
 			return *this;

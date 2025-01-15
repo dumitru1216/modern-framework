@@ -1,6 +1,17 @@
 #pragma once
 
 namespace framework {
+	namespace modifiers {
+		struct color_selector_t {
+			bool m_picking_color{false}, m_editing_hue{false}, m_editing_alpha{false};
+
+			// will we make save colors?
+		};
+
+		// shared pointer to acces in struct data
+		inline std::shared_ptr<color_selector_t> g_color_modifiers = std::make_shared<color_selector_t>();
+	}
+
 	namespace gui {
 		namespace elements {
 			// note:

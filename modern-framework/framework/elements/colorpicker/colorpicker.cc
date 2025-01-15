@@ -11,6 +11,7 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 	// alpha had those idk
 	static float color_picker_hue = -1.f;
 	static std::map<size_t, float> color_picker_alpha;
+	static math_wraper::c_vector_2d preview_position_hsv;
 
 	math_wraper::c_vector_2d cursor_pos = framework::gui::get_last_cursor_pos(),
 		draw_pos = context->pos + cursor_pos,
@@ -154,6 +155,67 @@ void framework::gui::elements::color_selector(const std::string& name, math_wrap
 		// draw the rect now
 		framework::draw->rect_filled(checkmark_pos, math_wraper::c_vector_2d(hsv_size.x, 6), color->modulate_normal(color->a), 8);
 	
+		// preparation for input handling
+		// positions
+		math_wraper::c_vector_2d hsv_selector_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, 10)),
+			hsv_bar_pos = math_wraper::c_vector_2d(pos + math_wraper::c_vector_2d(10, hsv_size.y + 10)),
+			alpha_bar_pos = hsv_bar_pos + math_wraper::c_vector_2d(0, 20);
+
+		// sizing
+		math_wraper::c_vector_2d bar_size = math_wraper::c_vector_2d(hsv_size.x, 8);
+
+		// hsv_selector_pos modifications
+		if (input_wraper::mouse_in_region(hsv_selector_pos, hsv_size) && input_wraper::key_down(VK_LBUTTON)
+			&& !framework::modifiers::g_color_modifiers->m_editing_alpha && !framework::modifiers::g_color_modifiers->m_editing_hue) { // we have to make sure we wont interract with anythign else
+			// we pick the color
+			framework::modifiers::g_color_modifiers->m_picking_color = true;
+		}
+
+		// increase it animation
+		anim_context_t hsv_circle = g_anim_base.build(name + "#circlegsv");
+		hsv_circle.animate(hsv_circle.m_value + 3.f * g_anim_base.delta_time(0.5) * (framework::modifiers::g_color_modifiers->m_picking_color?1.f:-1.f));
+		
+		if (framework::modifiers::g_color_modifiers->m_picking_color) {
+			if (input_wraper::key_down(VK_LBUTTON)) {
+				math_wraper::c_vector_2d cursor_delta = input_wraper::get_mouse_position() - hsv_selector_pos;
+
+				float s = (float) cursor_delta.x / (hsv_size.x);
+				float v = 1.f - (float) cursor_delta.y / (hsv_size.y);
+
+				preview_position_hsv = input_wraper::get_mouse_position();
+
+				new_saturation = s;
+				new_value = v;
+
+				printf("here\n");
+			}
+			else {
+				// reset
+				framework::modifiers::g_color_modifiers->m_picking_color = false;
+			}
+		}
+
+		// we need to store prev hsv position, add a static to do that
+		static math_wraper::c_vector_2d previous_position_hsv = preview_position_hsv;
+
+		// interpolate the stored position
+		float interpolation_speed = 0.1; // static animation speed
+		previous_position_hsv.x = previous_position_hsv.x + (preview_position_hsv.x - previous_position_hsv.x) * interpolation_speed;
+		previous_position_hsv.y = previous_position_hsv.y + (preview_position_hsv.y - previous_position_hsv.y) * interpolation_speed;
+
+		// draw limit for this
+		framework::draw->push_draw_limit(hsv_selector_pos, hsv_size);
+
+		// now we only have to draw it brother
+		framework::draw->rect_filled(previous_position_hsv,
+			math_wraper::c_vector_2d(8 + (4 * hsv_circle.m_value), 8 + (4 * hsv_circle.m_value)), math_wraper::c_color().modulate_normal(200), 15);
+
+		// restore data
+		framework::draw->restore_draw_limit();
+
+		*color = math_wraper::c_color(math_wraper::c_color::hsv_to_rgb(new_hue, std::clamp<float>(new_saturation, 0.0f, 1.0f),
+			std::clamp<float>(new_value, 0.0f, 1.0f)).modulate_normal(color_picker_alpha.at(context->focused_id)));
+
 		// reset to backround drawlist
 		framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
 	}
