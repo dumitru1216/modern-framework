@@ -48,6 +48,9 @@ std::string get_key_name(const int VirtualKey) {
 
 // independed animations
 static std::unordered_map<std::string, float> previous_total_size_map;
+static std::vector<std::string> modes = {
+    "Toggle", "Hold", "Always"
+};
 
 void framework::gui::elements::key_binder_custom(const std::string& name, modifiers::key_bind_t* var)
 {
@@ -93,11 +96,63 @@ void framework::gui::elements::key_binder_custom(const std::string& name, modifi
         math_wraper::c_color().modulate_normal(200));
     framework::draw->restore_draw_limit();
 
+    anim_context_t opened_drop = g_anim_base.build(name + "Keybind");
+    opened_drop.animate(opened_drop.m_value + 3.f * g_anim_base.delta_time(0.5f) * (context->focused_id == framework::gui::hash(name + "_user_panel")?1.f:-1.f));
+
     // no other elements in focus
     if (context->focused_id == 0) {
         if (body && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
             context->focused_id = framework::gui::hash(name);
         }
+
+        if (body && input_wraper::mouse_clicked(ImGuiMouseButton_Right)) {
+            context->focused_id = framework::gui::hash(name + "_user_panel");
+        }
+    }
+    else if (context->focused_id == framework::gui::hash(name + "_user_panel")) {
+        framework::globals::m_draw_list = ImGui::GetForegroundDrawList(); // force to foreground layer
+
+        // get biggest from list
+        auto get_biggest_size = [](c_font font, std::vector<std::string> values) -> int
+        {
+            std::vector<int> sizes;
+            for (auto& val : values) {
+                int size = font.measure(val).x;
+                sizes.push_back(size);
+            }
+
+            std::sort(sizes.begin(), sizes.end(), std::greater<int>());
+
+            if (!sizes.empty()) {
+                return sizes.at(0);
+            }
+            else {
+                return 0;
+            }
+        };
+
+        framework::draw->rect_filled(draw_pos + math_wraper::c_vector_2d(draw_size.x - (get_biggest_size(framework::fonts->sf_pro_bold, modes) + 18), 25)
+            , math_wraper::c_vector_2d(get_biggest_size(framework::fonts->sf_pro_bold, modes) + 18, (modes.size() * 20) + 5) * opened_drop.m_value,
+            math_wraper::c_color().hex("1D1E25"), 4);
+
+        for (int i = 0; i < modes.size(); i++) {
+            auto text_pos = math_wraper::c_vector_2d(draw_pos + math_wraper::c_vector_2d(draw_size.x - (get_biggest_size(framework::fonts->sf_pro_bold, modes) + 12), 30 + (20 * i) * opened_drop.m_value));
+            auto text_size = math_wraper::c_vector_2d(framework::fonts->sf_pro_bold.measure(modes[i]).x, 20);
+            if (input_wraper::mouse_in_region(text_pos, text_size) && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
+                var->cond = i;
+                context->focused_id = 0;
+            }
+
+            // item selected animation
+            anim_context_t selected_item = g_anim_base.build(modes[i]);
+            selected_item.animate_int(selected_item.m_value + 3.f * g_anim_base.delta_time(0.5f) * (var->cond == i?255.f:-255.f), true, 150.f, 255.f);
+
+            framework::fonts->sf_pro_bold.draw(text_pos.x, text_pos.y,
+                modes[i], math_wraper::c_color().modulate_normal(selected_item.m_value));
+        }
+
+        // reset drawlist
+        framework::globals::m_draw_list = ImGui::GetBackgroundDrawList();
     }
     else if (context->focused_id == framework::gui::hash(name)) {
         if (!body && input_wraper::mouse_clicked(ImGuiMouseButton_Left)) {
