@@ -14,6 +14,7 @@ C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\co
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\form\form.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\form.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\group\group.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\group.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\gui.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\gui.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\hotkey\hotkey.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\hotkey.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\label\label.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\label.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\multidropdown\multidropdown.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\multidropdown.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\slider\slider.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\slider.obj

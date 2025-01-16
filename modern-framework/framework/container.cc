@@ -8,6 +8,8 @@ void framework::c_container::run()
 	static float slider = 0.f;
 	static int slider2 = 0.f;
 	static int combo = 0;
+	static framework::modifiers::key_bind_t custom{};
+
 
 	static math_wraper::c_color test_c[5]{};
 
@@ -47,7 +49,8 @@ void framework::c_container::run()
 
 				gui::group::begin_group(ICON_FA_BOLT, "Accuracy", "Accuracy adjustments for aimbot.", math_wraper::c_vector_2d(50, 50));
 				{
-
+					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
+					gui::elements::key_binder_custom("Keybinder", &custom);
 				}
 				gui::group::end_group();
 

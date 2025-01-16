@@ -15,6 +15,7 @@ namespace framework {
 	namespace gui {
 		namespace elements {
 			void key_binder(const std::string& name, modifiers::key_bind_t* var, bool inlined = false);
+			void key_binder_custom(const std::string& name, modifiers::key_bind_t* var);
 		}
 	}
 }
