@@ -8,6 +8,33 @@ ATOM                MyRegisterClass( HINSTANCE, LPCTSTR );
 BOOL                InitWindow( HINSTANCE, LPCTSTR, LPCTSTR );
 LRESULT CALLBACK    WndProc( HWND, UINT, WPARAM, LPARAM );
 
+// this is a dogshit i coded, it contains awfull code
+void draw_magnified_rect(int x, int y, int width, int height, math_wraper::c_color color, int rounding, float magnification_factor, math_wraper::c_vector_2d mouse_position) {
+	float magnification_range = 30.0f;
+
+	ImVec2 top_left(x, y);
+	ImVec2 top_right(x + width, y);
+	ImVec2 bottom_left(x, y + height);
+	ImVec2 bottom_right(x + width, y + height);
+
+	auto magnify_corner = [&](ImVec2 corner) -> ImVec2 {
+		float distance = sqrt(pow(mouse_position.x - corner.x, 2) + pow(mouse_position.y - corner.y, 2));
+		if (distance < magnification_range) {
+			float factor = 1.0f + (magnification_factor - 1.0f) * (1.0f - distance / magnification_range);
+			return ImVec2(corner.x + (corner.x - mouse_position.x) * (factor - 1.0f), corner.y + (corner.y - mouse_position.y) * (factor - 1.0f));
+		}
+		return corner;
+	};
+
+	top_left = magnify_corner(top_left);
+	top_right = magnify_corner(top_right);
+	bottom_left = magnify_corner(bottom_left);
+	bottom_right = magnify_corner(bottom_right);
+
+	ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+	draw_list->AddQuadFilled(top_left, top_right, bottom_right, bottom_left, color.transform());
+}
+
 int main( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
 	/* Hide console window */

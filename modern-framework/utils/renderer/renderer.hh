@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace framework {
 	// font settings
 	namespace modifiers {
