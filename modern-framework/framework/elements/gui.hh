@@ -61,3 +61,4 @@ namespace framework {
 #include "button/button.hh"
 #include "colorpicker/colorpicker.hh"
 #include "hotkey/hotkey.hh"
+#include "text_input/text_input.hh"

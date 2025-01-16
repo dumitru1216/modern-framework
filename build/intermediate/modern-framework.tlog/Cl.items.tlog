@@ -18,6 +18,7 @@ C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\ho
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\label\label.cpp;C:\Users\unknown\Desktop\modern-framework\build\intermediate\label.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\multidropdown\multidropdown.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\multidropdown.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\slider\slider.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\slider.obj
+C:\Users\unknown\Desktop\modern-framework\modern-framework\framework\elements\text_input\text_input.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\text_input.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\main.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\main.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\utils\animations\animations.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\animations.obj
 C:\Users\unknown\Desktop\modern-framework\modern-framework\utils\renderer\renderer.cc;C:\Users\unknown\Desktop\modern-framework\build\intermediate\renderer.obj

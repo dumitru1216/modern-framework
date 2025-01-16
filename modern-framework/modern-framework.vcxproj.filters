@@ -84,6 +84,9 @@
     <ClCompile Include="framework\elements\hotkey\hotkey.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="framework\elements\text_input\text_input.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc.hh">
@@ -183,6 +186,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework\elements\hotkey\hotkey.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\elements\text_input\text_input.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

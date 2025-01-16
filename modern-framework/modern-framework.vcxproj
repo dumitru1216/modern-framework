@@ -160,6 +160,7 @@
     <ClCompile Include="framework\elements\label\label.cpp" />
     <ClCompile Include="framework\elements\multidropdown\multidropdown.cc" />
     <ClCompile Include="framework\elements\slider\slider.cc" />
+    <ClCompile Include="framework\elements\text_input\text_input.cc" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="utils\animations\animations.cc" />
     <ClCompile Include="utils\renderer\renderer.cc" />
@@ -187,6 +188,7 @@
     <ClInclude Include="framework\elements\label\label.hh" />
     <ClInclude Include="framework\elements\multidropdown\multidropdown.hh" />
     <ClInclude Include="framework\elements\slider\slider.hh" />
+    <ClInclude Include="framework\elements\text_input\text_input.hh" />
     <ClInclude Include="inc.hh" />
     <ClInclude Include="main.hh" />
     <ClInclude Include="utils\animations\animations.hh" />

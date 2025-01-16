@@ -8,7 +8,7 @@ void framework::c_container::run()
 	static int slider2 = 0.f, slider24;
 	static int combo = 0;
 	static framework::modifiers::key_bind_t custom{}, custom2{};
-
+	static std::string text{};
 
 	static math_wraper::c_color test_c[5]{};
 
@@ -53,6 +53,7 @@ void framework::c_container::run()
 					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
 					gui::elements::key_binder_custom("Keybinder", &custom);
 					gui::elements::key_binder_custom("Keybinder second", &custom2);
+					gui::elements::text_input("Text-input", &text);
 				}
 				gui::group::end_group();
 
