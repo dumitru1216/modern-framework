@@ -5,10 +5,10 @@
 void framework::c_container::run()
 {
 	static bool test[100]{false};
-	static float slider = 0.f;
-	static int slider2 = 0.f;
+	static float slider = 0.f, slider23;
+	static int slider2 = 0.f, slider24;
 	static int combo = 0;
-	static framework::modifiers::key_bind_t custom{};
+	static framework::modifiers::key_bind_t custom{}, custom2{};
 
 
 	static math_wraper::c_color test_c[5]{};
@@ -28,9 +28,11 @@ void framework::c_container::run()
 						gui::elements::checkbox("Checkbox " + std::to_string(i), &test[i]);
 
 					gui::elements::slider("Slider float", &slider, 0.f, 100.f);
+					gui::elements::slider("Slider float 2", &slider23, 0.f, 100.f);
 					gui::elements::color_selector("Just a colorpecer", &test_c[0], true);
 					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
 					gui::elements::slider("Slider int", &slider2, 0, 100);
+					gui::elements::slider("Slider int 3", &slider24, 0, 100);
 					gui::elements::combo("Combo", {"Item 1", "Itemsbooboob 2", "Item 3", "Item 4"}, &combo);
 
 					gui::elements::multi_dropdown("Multi-dropdown", {
@@ -51,6 +53,7 @@ void framework::c_container::run()
 				{
 					gui::elements::checkbox("Checkbox " + std::to_string(10), &test[10]);
 					gui::elements::key_binder_custom("Keybinder", &custom);
+					gui::elements::key_binder_custom("Keybinder second", &custom2);
 				}
 				gui::group::end_group();
 
