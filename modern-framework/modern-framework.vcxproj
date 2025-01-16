@@ -156,6 +156,7 @@
     <ClCompile Include="framework\elements\form\form.cc" />
     <ClCompile Include="framework\elements\group\group.cc" />
     <ClCompile Include="framework\elements\gui.cpp" />
+    <ClCompile Include="framework\elements\hotkey\hotkey.cc" />
     <ClCompile Include="framework\elements\label\label.cpp" />
     <ClCompile Include="framework\elements\multidropdown\multidropdown.cc" />
     <ClCompile Include="framework\elements\slider\slider.cc" />
@@ -182,6 +183,7 @@
     <ClInclude Include="framework\elements\form\form.hh" />
     <ClInclude Include="framework\elements\group\group.hh" />
     <ClInclude Include="framework\elements\gui.hh" />
+    <ClInclude Include="framework\elements\hotkey\hotkey.hh" />
     <ClInclude Include="framework\elements\label\label.hh" />
     <ClInclude Include="framework\elements\multidropdown\multidropdown.hh" />
     <ClInclude Include="framework\elements\slider\slider.hh" />

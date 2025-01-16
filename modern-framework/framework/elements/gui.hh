@@ -60,3 +60,4 @@ namespace framework {
 #include "label/label.hh"
 #include "button/button.hh"
 #include "colorpicker/colorpicker.hh"
+#include "hotkey/hotkey.hh"
