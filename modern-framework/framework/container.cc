@@ -1,7 +1,6 @@
 #include "../inc.hh"
 #include "elements/group/group.hh"
 
-
 void framework::c_container::run()
 {
 	static bool test[100]{false};
